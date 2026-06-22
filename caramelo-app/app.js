@@ -15,8 +15,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 /*L'ajoute de chaque variable est important pour relier avec le fichier en question*/
 var petJSON = require('./models/petJSON');
-var foundJSON = require('./models/foundJSON');
-var lostJSON = require('./models/lostJSON');
 var usersJSON = require('./models/usersJSON');
 var app = express();
 
@@ -37,12 +35,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 /*Relie pour l'utilisation du fichier*/
-app.use('/foundJSON', foundJSON);
 app.use('/petJSON', petJSON);
 
 
 /*Relie pour l'utilisation du fichier
-app.use('/lostJSON', lostJSON);
 app.use('/usersJSON', usersJSON);
 */
 module.exports = app;

@@ -7,27 +7,35 @@ const mongoose = require('mongoose');
 const PetsSchema = new mongoose.Schema({
     Id_Pets: Number,
     Name: String,
-    Owner: String,
+    Ricover: String,
+    Vet: String,
     Status: String,
     Photo: String,
     Chip_number: String,
+    Age: Number,
+    Vaccination: String,
     Species: String,
     Breed: String,
-    Description: String
+    GPS_coordinates: String,
+    Description: String,
+    Date_time: String,
+    Finder: String,
+
 }, {
-    collection: 'Pets'
+    collection: 'Pets',
+    versionKey: false
 });
 const Pets = mongoose.model('Pets', PetsSchema)
 
 
 
 /*CRUD pour ajoute une nouvelle pet (CREATE) */
-router.post('/pets', async(req, res) => {
+router.post('/pets', async (req, res) => {
     try {
         const pet = new Pets(req.body);
         const data = await pet.save();
-         res.status(201).json(data); 
-    }catch (err) {
+        res.status(201).json(data);
+    } catch (err) {
         res.status(500).json({ erro: err.message });
     }
 });
@@ -37,10 +45,10 @@ router.get('/pets', async (req, res) => {
     try {
         const data = await Pets.find();
 
-        if(!data.length) {
+        if (!data.length) {
             return res.status(404).json({
-            message:"Aucune pet trouve avec notre recherche"
-        });
+                message: "Aucune pet trouve avec notre recherche"
+            });
         }
         res.json(data);
     } catch (err) {
@@ -51,11 +59,11 @@ router.get('/pets', async (req, res) => {
 /* CRUD c'est pour lire une par une les archives provenants de la base de donnes (READ) */
 router.get('/pets/:id', async (req, res) => {
     try {
-        const data = await Pets.findById( req.params.id);
-        if(!data) {
+        const data = await Pets.findById(req.params.id);
+        if (!data) {
             return res.status(404).json({
-            message:"Aucune pet trouve avec notre recherche"
-        });
+                message: "Aucune pet trouve avec notre recherche"
+            });
         }
         res.json(data);
     } catch (err) {
@@ -64,44 +72,52 @@ router.get('/pets/:id', async (req, res) => {
 });
 
 /* CRUD actualiser pet (UPDATE)*/
-router.put('/pets/:id', async(req, res) => {
+router.put('/pets/:id', async (req, res) => {
     try {
-    const data = await Pets.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true })
-       if(!data) {
+        const data = await Pets.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true })
+        if (!data) {
             return res.status(404).json({
-            message:"Aucune pet trouve avec notre recherche"
-        }); 
-    } 
-     res.json(data);
+                message: "Aucune pet trouve avec notre recherche"
+            });
+        }
+        res.json(data);
     } catch (err) {
         res.status(500).json({ erro: err.message });
     }
 });
 
 /*CRUD delete une pet(DELETE) */
-router.delete('/pets/:id', async(req, res) => {
+router.delete('/pets/:id', async (req, res) => {
     try {
         const data = await Pets.findByIdAndDelete(req.params.id);
-        
-    if (!data) {
-        return res.status(404).json({
-            message:"Pet non trouvé"
-        });
-    }
-    res.json(data);
+
+        if (!data) {
+            return res.status(404).json({
+                message: "Pet non trouvé"
+            });
+        }
+        res.json(data);
     } catch (err) {
         res.status(500).json({ erro: err.message });
     }
 });
 
-
-
-
-
-
-
+/* Pour faire la triage de animal pedu */
+router.get('./pets/trouve', async (req, res) => {
+    try {
+        const data = await Pets.find({ status: 'trouve' });
+        if (!data) {
+            return res.status(404).json({
+                message: "Pet non trouvé"
+            })
+        }
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
+});
 
 module.exports = router;
