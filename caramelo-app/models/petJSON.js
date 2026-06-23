@@ -22,10 +22,10 @@ const PetsSchema = new mongoose.Schema({
     Finder: String,
 
 }, {
-    collection: 'Pets',
+    collection: 'pets',
     versionKey: false
 });
-const Pets = mongoose.model('Pets', PetsSchema)
+const Pets = mongoose.model('pets', PetsSchema)
 
 
 /* Pour faire la triage de animal perdu */
