@@ -1,0 +1,85 @@
+[{
+  "_id": {
+    "$oid": "6a32b52214b89498d740b2a9"
+  },
+  "Id_Lost": 1,
+  "Pet_Id": 1,
+  "Name": "Rex",
+  "Owner": "Jean Martin",
+  "Age": 5,
+  "Vaccination": "oui",
+  "Chip_number": "250268000000000",
+  "GPS_coordinates": {
+    "latitude": 46.6705,
+    "longitude": -1.4268
+  },
+  "Date_time": "2026-06-01 08:00"
+},
+{
+  "_id": {
+    "$oid": "6a32b52214b89498d740b2aa"
+  },
+  "Id_Lost": 3,
+  "Pet_Id": 3,
+  "Name": "Caramel",
+  "Owner": "Thomas Bernard",
+  "Age": 2,
+  "Vaccination": "oui",
+  "Chip_number": "250268000000002",
+  "GPS_coordinates": {
+    "latitude": 46.844,
+    "longitude": -1.009
+  },
+  "Date_time": "2026-06-03 10:14"
+},
+{
+  "_id": {
+    "$oid": "6a32b52214b89498d740b2ab"
+  },
+  "Id_Lost": 5,
+  "Pet_Id": 5,
+  "Name": "Étoile",
+  "Owner": "Lucas Petit",
+  "Age": 8,
+  "Vaccination": "oui",
+  "Chip_number": "250268000000004",
+  "GPS_coordinates": {
+    "latitude": 46.455,
+    "longitude": -1.166
+  },
+  "Date_time": "2026-06-05 12:28"
+},
+{
+  "_id": {
+    "$oid": "6a32b52214b89498d740b2ac"
+  },
+  "Id_Lost": 7,
+  "Pet_Id": 7,
+  "Name": "Oscar",
+  "Owner": "Julien Garcia",
+  "Age": 5,
+  "Vaccination": "oui",
+  "Chip_number": "250268000000006",
+  "GPS_coordinates": {
+    "latitude": 46.6705,
+    "longitude": -1.4268
+  },
+  "Date_time": "2026-06-07 14:42"
+},
+{
+  "_id": {
+    "$oid": "6a32b52214b89498d740b2ad"
+  },
+  "Id_Lost": 9,
+  "Pet_Id": 9,
+  "Name": "Plume",
+  "Owner": "Emma Robert",
+  "Age": 2,
+  "Vaccination": "oui",
+  "Chip_number": "250268000000008",
+  "GPS_coordinates": {
+    "latitude": 46.844,
+    "longitude": -1.009
+  },
+  "Date_time": "2026-06-09 16:56"
+}]

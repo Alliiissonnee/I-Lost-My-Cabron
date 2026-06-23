@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2bf"
+  },
+  "Id_Users": 1,
+  "surname_firstname": "Jean Martin",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c0"
+  },
+  "Id_Users": 2,
+  "surname_firstname": "Claire Dubois",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c1"
+  },
+  "Id_Users": 3,
+  "surname_firstname": "Thomas Bernard",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c2"
+  },
+  "Id_Users": 4,
+  "surname_firstname": "",
+  "profile": "anonyme"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c3"
+  },
+  "Id_Users": 5,
+  "surname_firstname": "Lucas Petit",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c4"
+  },
+  "Id_Users": 6,
+  "surname_firstname": "Marie Lefèvre",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c5"
+  },
+  "Id_Users": 7,
+  "surname_firstname": "Admin WAM",
+  "profile": "admin"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c6"
+  },
+  "Id_Users": 8,
+  "surname_firstname": "Julien Garcia",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c7"
+  },
+  "Id_Users": 9,
+  "surname_firstname": "Emma Robert",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c8"
+  },
+  "Id_Users": 10,
+  "surname_firstname": "Hugo Leroy",
+  "profile": "anonyme"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2c9"
+  },
+  "Id_Users": 11,
+  "surname_firstname": "Sophie Moreau",
+  "profile": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "6a32b53f14b89498d740b2ca"
+  },
+  "Id_Users": 12,
+  "surname_firstname": "",
+  "profile": "anonyme"
+}]
