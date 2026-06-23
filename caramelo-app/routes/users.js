@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
 const User = require('../models/usersJSON');
 const authMiddleware = require('../middlewares/auth');
@@ -96,11 +95,4 @@ router.delete('/:id', authMiddleware, admin, async function (req, res) {
 
 
 
-=======
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
->>>>>>> Wallace
 module.exports = router;
