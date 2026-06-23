@@ -28,6 +28,35 @@ const PetsSchema = new mongoose.Schema({
 const Pets = mongoose.model('Pets', PetsSchema)
 
 
+/* Pour faire la triage de animal perdu */
+router.get('/pets/perdu', async (req, res) => {
+    try {
+        const data = await Pets.find({ Status: 'perdu' });
+        if (!data) {
+            return res.status(404).json({
+                message: "Pet non trouvé"
+            })
+        }
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
+});
+/* Pour faire la triage de animal trouvé */
+router.get('/pets/trouve', async (req, res) => {
+    try {
+        const data = await Pets.find({ Status: 'trouvé' });
+        if (!data) {
+            return res.status(404).json({
+                message: "Pet non trouvé"
+            })
+        }
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
+});
+
 
 /*CRUD pour ajoute une nouvelle pet (CREATE) */
 router.post('/pets', async (req, res) => {
@@ -105,19 +134,5 @@ router.delete('/pets/:id', async (req, res) => {
     }
 });
 
-/* Pour faire la triage de animal pedu */
-router.get('./pets/trouve', async (req, res) => {
-    try {
-        const data = await Pets.find({ status: 'trouve' });
-        if (!data) {
-            return res.status(404).json({
-                message: "Pet non trouvé"
-            })
-        }
-        res.json(data);
-    } catch (err) {
-        res.status(500).json({ erro: err.message });
-    }
-});
 
 module.exports = router;
