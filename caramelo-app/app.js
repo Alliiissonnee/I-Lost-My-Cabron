@@ -15,7 +15,6 @@ var usersRouter = require('./routes/users');
 var User = require('./models/usersJSON');
 var petJSON = require('./models/petJSON');
 var annoncesRouter = require('./routes/annonces');
-
 var app = express();
 
 app.use(logger('dev'));
