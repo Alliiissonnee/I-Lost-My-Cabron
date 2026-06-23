@@ -13,8 +13,8 @@ const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var User = require('./models/usersJSON');
-var annoncesRouter = require('./routes/annonces');
 var petJSON = require('./models/petJSON');
+var annoncesRouter = require('./routes/annonces');
 var app = express();
 
 app.use(logger('dev'));
