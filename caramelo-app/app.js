@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var User = require('./models/usersJSON');
+var annoncesRouter = require('./routes/annonces');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/annonces', annoncesRouter);
 
 
 /*Connection du Back-end avec la base de donnes(MongoDB) (verifier le fichier(.env)*/
