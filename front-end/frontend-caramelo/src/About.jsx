@@ -1,8 +1,12 @@
 import Welcome from "./welcome";
+import logoCaramelo from './assets/logo_cabron.jpg';
 
 function About() {
    return (
     <div>
+      <header>
+         <img src={logoCaramelo} alt="Logo Cabron" />
+      </header>
       <h1>welcome</h1>
       # I Lost My Cabron – Retrouvons nos compagnons ensemble
 
