@@ -7,10 +7,11 @@ function About() {
       <header>
          <img src={logoCaramelo} alt="Logo Cabron" />
       </header>
-      <h1>welcome</h1>
-      # I Lost My Cabron – Retrouvons nos compagnons ensemble
+      
+      <h1> I Lost My Cabron</h1> <br />
+      <h2>– Retrouvons nos compagnons ensemble</h2>
 
-Chaque année, des milliers d'animaux de compagnie disparaissent. Qu'il s'agisse d'un chien qui s'échappe lors d'une promenade, d'un chat qui ne rentre pas à la maison ou d'un animal trouvé errant dans la rue, les propriétaires se retrouvent souvent démunis et les personnes qui les recueillent ne savent pas toujours comment retrouver leur famille.
+Chaque année, des milliers d'animaux de compagnie disparaissent. Qu'il s'agisse d'un chien qui s'échappe lors d'une promenade, d'un chat qui ne rentre pas à la maison ou d'un animal trouvé errant dans la rue, les propriétaires se retrouvent souvent démunis et les personnes qui les recueillent ne savent pas toujours comment retrouver leur famille. <br />
 
 **I Lost My Cabron** est une application mobile conçue pour faciliter la recherche et le signalement d'animaux perdus ou trouvés en Vendée.
 
