@@ -1,0 +1,149 @@
+.App {
+    overflow-x: hidden;
+}
+
+
+.Caramelo_run {
+
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    z-index: 1000;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    position: absolute;
+    animation-name: runScreen;
+    animation-duration: 4s;
+    animation-timing-function: ease-out;
+    opacity: 0;
+
+}
+
+@keyframes runScreen {
+    0% {
+        background-position: -200px 100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        background-position: 2000px 100%;
+        opacity: 0;
+
+    }
+}
+
+section {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo_welcome {
+    margin-top: 50px;
+    width: 700px;
+    border-radius: 5%;
+
+    animation-name: logoWelcome;
+    animation-duration: 5s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes logoWelcome {
+    0% {
+        opacity: 0;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+button {
+    margin-top: 100px;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.Top {
+    background-color: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo_cabron {
+    display: flex;
+    width: 200px;
+    margin: 0.5rem;
+}
+
+.dropside-menu {
+    display: none;
+}
+
+.dropside-menu.open {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+}
+
+section ul li a {
+    display: flex;
+    flex-direction: row;
+    padding: 0.8rem;
+}
+
+input.search {
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem;
+}
+
+.menu {
+    background-color: #A0B4F4;
+    border-radius: 8%;
+    width: 5vw;
+}
+
+.login {
+    display: flex;
+    margin-left: 68px;
+    width: 80px;
+    cursor: pointer;
+}
+
+.dropside-login {
+    display: none;
+    align-items: start;
+}
+
+.dropside-login.open {
+    display: flex;
+    
+    flex-direction: column;
+    gap: 50px;
+}
