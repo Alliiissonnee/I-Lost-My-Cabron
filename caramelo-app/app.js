@@ -1,4 +1,4 @@
-/**Installation do (dotenv) le lien est securise avec gitIGNORE dans le fichier (.env)  */
+/**Installation do (dotenv) le lien est securise avec gitIGNORE dans le fichier (.env)  doit être tout en haut du fichier*/
 require('dotenv').config();
 
 var express = require('express');

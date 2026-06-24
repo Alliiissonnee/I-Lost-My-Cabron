@@ -6,3 +6,7 @@ function admin(req, res, next) {
 }
 
 module.exports = admin;
+
+
+// 401 on ne sait pas qui c'est
+// 403 on sait qui c'est mais l'acces n'est pas autorisé

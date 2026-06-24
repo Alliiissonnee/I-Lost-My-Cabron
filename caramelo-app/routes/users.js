@@ -70,7 +70,7 @@ router.post('/login', async function (req, res) {
   }
 });
 
-// Route pour lister tous les utilisateurs (admins uniquement)
+// Route pour lister tous les utilisateurs (admins uniquement) par verification du token authMiddleware puis si c'est un admin
 router.get('/', authMiddleware, admin, async function (req, res) {
   try {
     const users = await User.find().select('-password');
