@@ -82,6 +82,20 @@ button {
     cursor: pointer;
 }
 
+.MuiPickersDay-root,
+.MuiPickersArrowSwitcher-button,
+.MuiIconButton-root,
+.MuiDialogActions-root button {
+    margin-top: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 6px 16px !important;
+}
+
+.MuiFormControl-root {
+    width: 100% !important;
+}
+
 .Top {
     background-color: none;
     display: flex;
