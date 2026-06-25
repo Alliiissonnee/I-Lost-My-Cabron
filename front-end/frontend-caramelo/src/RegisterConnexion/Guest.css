@@ -32,6 +32,9 @@
   font-size: 15px;
   cursor: pointer;
 }
+.guest-box button:hover {
+  background-color: #DC5D34;
+}
 
 .guest-box button:disabled {
   background-color: #93c5fd;
@@ -49,5 +52,9 @@
   margin-top: 8px;
 }
 h2{
-  color:#DC5D34
+  color:#DC5D34;
 } 
+.link_to_welcome{
+  font-size:13px;
+  margin: 0px;
+}

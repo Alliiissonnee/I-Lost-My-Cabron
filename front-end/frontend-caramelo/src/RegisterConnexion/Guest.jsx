@@ -8,6 +8,7 @@ function Guest() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+
     const handleGuestLogin = async () => {
         setError("");
         setLoading(true);
@@ -26,6 +27,7 @@ function Guest() {
 
     return (
         <section className="guest-container">
+
             <div className="guest-box">
                 <h2>Continuer en tant qu'invité</h2>
                 <p>
@@ -41,6 +43,9 @@ function Guest() {
                 <p className="login-link">
                     Tu préfères un vrai compte ? <Link to="/register">S'inscrire</Link>
                 </p>
+                <Link to="/welcome" className="link_to_welcome">
+                    Retour à l'accueil
+                </Link>
             </div>
         </section>
     );

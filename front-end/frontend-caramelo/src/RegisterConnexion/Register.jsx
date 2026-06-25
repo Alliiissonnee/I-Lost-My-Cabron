@@ -6,6 +6,9 @@ import "./Register.css";
 function Register() {
     // rediriger l'utilisateur :
     const navigate = useNavigate();
+    const [isDark, setIsDark] = useState(
+        window.matchMedia('(prefers-color-scheme : dark)').matches
+    );
     const [formData, setFormData] = useState({
         surname: "",
         firstname: "",
@@ -94,12 +97,13 @@ function Register() {
                 <button type="submit" disabled={loading}>
                     {loading ? "Création..." : "S'inscrire"}
                 </button>
-
                 <p className="login-link">
                     Déjà un compte ? <Link to="/login">Se connecter</Link> <hr />
-                    Continuer avec un compte invité ? <Link to ="/guest">Compte invité</Link>
+                    Continuer avec un compte invité ? <Link to="/guest">Compte invité</Link>
                 </p>
-
+                <Link to="/welcome" className="link_to_welcome">
+                    Retour à l'accueil
+                </Link>
             </form>
         </section>
     );
