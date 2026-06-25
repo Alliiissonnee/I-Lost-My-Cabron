@@ -34,7 +34,7 @@ function Home() {
             </section>
 
             <article>
-                <button onClick={goToWelcome}>Bienvenue !!</button>
+                <button className='welcomeButton' onClick={goToWelcome}>Bienvenue !!</button>
             </article>
         </div>
     );

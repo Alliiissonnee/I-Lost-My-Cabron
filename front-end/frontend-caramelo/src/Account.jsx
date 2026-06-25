@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 
 
-function Welcome() {
+function Account() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [loginOpen, setLoginOpen] = useState(false)
     const [isDark, setIsDark] = useState(
@@ -29,9 +29,9 @@ function Welcome() {
             <header className="Top">
 
                 {isDark ? (
-                <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
+                    <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
                 ) : (
-                <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
+                    <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
                 )}
 
                 <button type='button' className='menu' onClick={() => {
@@ -41,10 +41,16 @@ function Welcome() {
 
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
-                        Animaux trouvés
+                        Voir les animaux trouvés
                     </li>
                     <li>
-                        Animaux perdus
+                        Voir les animaux perdus
+                    </li>
+                    <li>
+                        Poster une annonce
+                    </li>
+                    <li>
+                        Modifier une annonce
                     </li>
                 </ul>
 
@@ -72,15 +78,14 @@ function Welcome() {
 
                 <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                       <Link to="/account">Se connecter</Link>                       
+                        Se <br />
+                        déconnecter
                     </li>
                     <li>
-                       <Link to="/account">S'inscrire</Link>                      
+                        Supprimer <br />
+                        mon compte
+                    </li>
 
-                    </li>
-                    <li>
-                       <Link to="/account">Compte invité</Link>
-                    </li>
                 </ul>
             </aside>
         </div>
@@ -89,4 +94,4 @@ function Welcome() {
 
 }
 
-export default Welcome
+export default Account
