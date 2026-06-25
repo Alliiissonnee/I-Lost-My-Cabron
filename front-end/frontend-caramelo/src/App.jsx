@@ -3,6 +3,7 @@ import './App.css'
 import Home from "./home";
 import Welcome from "./welcome";
 import About from './About';
+import Account from './Account';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/about" element={<About/>} />
+        <Route path="/account" element={<Account/>} />
 
       </Routes>
     </BrowserRouter>

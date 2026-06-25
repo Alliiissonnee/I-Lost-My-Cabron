@@ -53,7 +53,7 @@ section {
 .logo_welcome {
     margin-top: 50px;
     width: 700px;
-    border-radius: 5%;
+    border-radius: 20%;
 
     animation-name: logoWelcome;
     animation-duration: 5s;
@@ -75,7 +75,7 @@ section {
 }
 
 
-button {
+.welcomeButton {
     margin-top: 100px;
     width: 200px;
     height: 50px;
@@ -83,6 +83,7 @@ button {
 }
 
 .Top {
+    position: relative;
     background-color: none;
     display: flex;
     align-items: center;
@@ -92,17 +93,36 @@ button {
 .logo_cabron {
     display: flex;
     width: 200px;
-    margin: 0.5rem;
+    margin-left: 40px;
+    border-radius: 50%;
 }
 
 .dropside-menu {
-    display: none;
+    position: absolute;
+    margin: 700px;
+    flex-direction: column;
+    background: var(--bg);
+    box-shadow: var(--shadow);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    z-index: 1000;
+
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
 }
 
 .dropside-menu.open {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    flex-wrap: wrap;
+    transform: translateX(0);
+    opacity: 1;
+    gap: 20px;
+    pointer-events: auto;
+
 }
 
 ul {
@@ -118,32 +138,52 @@ section ul li a {
 
 input.search {
     width: 200px;
+    height: 20px;
+    font-size: large;
     display: flex;
     justify-content: flex-end;
-    margin: 0.5rem;
+    margin-right: 100px;
 }
 
 .menu {
-    background-color: #A0B4F4;
-    border-radius: 8%;
+    background-color: #C48633;
+    font-size: large;
+    border-radius: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2);
     width: 5vw;
+    height: 4vh;
+    cursor: pointer;
+
 }
 
 .login {
     display: flex;
-    margin-left: 68px;
+    margin-top: 40px;
+    margin-left: 100px;
     width: 80px;
     cursor: pointer;
 }
 
-.dropside-login {
-    display: none;
-    align-items: start;
+.dropdown-login {
+    position: absolute;
+    margin-left: 70px;
+    margin-top: 10px;
+    flex-direction: column;
+    background: var(--bg);
+    box-shadow: var(--shadow);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    z-index: 1000;
+
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.dropside-login.open {
-    display: flex;
-    
-    flex-direction: column;
-    gap: 50px;
+.dropdown-login.open {
+    transform: translateY(0);
+    opacity: 1;
+    gap: 20px;
+    pointer-events: auto;
 }
