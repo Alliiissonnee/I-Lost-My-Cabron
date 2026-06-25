@@ -2,7 +2,7 @@ import Welcome from "./welcome";
 import logoCaramelo from './assets/logo_cabron.jpg';
 
 function About() {
-   return (
+   return (<>
       <div>
          <header>
             <img src={logoCaramelo} alt="Logo Cabron" />
@@ -103,7 +103,7 @@ function About() {
          </p>
 
       </div>
-   )
+   </>)
 
 }
 
