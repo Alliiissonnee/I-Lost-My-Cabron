@@ -49,6 +49,19 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
         // format Fr a faire dans le front-end seulement
     },
+    // Afficher la dernière connexion des utilisateurs
+    lastConnection: {
+        type: Date,
+        default: null
+    },
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
+    },
 },
     // Permet de ne pas afficher --v : 0 dans mongoDB
     { versionKey: false });

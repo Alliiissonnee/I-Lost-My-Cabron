@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/usersJSON');
 const authMiddleware = require('../middlewares/auth');
 const admin = require('../middlewares/admin');
+const crypto = require('crypto');
+const sendResetEmail = require('../automatisation/email');
 
 // Route inscription utilisateur
 router.post('/register', async function (req, res) {
@@ -45,6 +47,10 @@ router.post('/login', async function (req, res) {
       return res.status(401).json({ message: "Email ou mot de passe incorrect" })
     }
 
+    // Mise à jour de la dernière connection de l'utilisateur
+    user.lastConnection = new Date();
+    await user.save();
+
     // Création du token JWT
     const token = jwt.sign(
       // Info qu'on veut encoder
@@ -70,13 +76,39 @@ router.post('/login', async function (req, res) {
   }
 });
 
+// Route pour le comtpe invité (anonyme)
+router.post('/guest', async function (req, res) {
+  try {
+    const guest = new User({
+      profile: 'anonyme'
+    });
+    await guest.save();
+
+    const token = jwt.sign(
+      { id: guest._id, profile: guest.profile },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    res.status(201).json({
+      message: "Compte invité créé",
+      token: token,
+      user: {
+        id: guest._id,
+        profile: guest.profile
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message })
+  }
+});
+
 // Route pour lister tous les utilisateurs (admins uniquement) par verification du token authMiddleware puis si c'est un admin
 router.get('/', authMiddleware, admin, async function (req, res) {
   try {
     const users = await User.find().select('-password');
     res.status(200).json({ users });
   } catch (error) {
-res.status(500).json({message:"Erreur", error:error.message});
+    res.status(500).json({ message: "Erreur", error: error.message });
   }
 });
 
@@ -93,6 +125,46 @@ router.delete('/:id', authMiddleware, admin, async function (req, res) {
   }
 });
 
+// Route demande de réinitialisation de mot de passe
+router.post('/forgot-password', async function (req, res) {
+  console.log("Route oubli mot de passe appelée");
 
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(200).json({ message: "Si cet email existe, un lien a été envoyé" });
+    }
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000;
+    await user.save();
+    //await sendResetEmail(user.email, resetToken);
+    res.status(200).json({ message: "Si cet email existe, un lien a été envoyé." });
+  } catch (error) {
+    console.error("ERREUR FORGOT PASSWORD :", error);
+    return res.status(500).json({ message: "Erreur", error: error.message });
+  }
+});
+
+// Route réinitialisation effective avec le token reçu par email
+router.post('/reset-password/:token', async function (req, res) {
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    if (!user) {
+      return res.status(400).json({ message: "Lien invalide ou expiré" });
+    }
+    user.password = req.body.password;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+    await user.save();
+
+    res.status(200).json({ message: "Mot de passe réinitialisé avec succès" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message });
+  }
+});
 
 module.exports = router;
