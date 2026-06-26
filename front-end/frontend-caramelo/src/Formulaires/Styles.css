@@ -272,3 +272,17 @@ h3 {
   color: #0f3d5c;
 }
 
+/* ── Bloc lieu ── */
+.lieu-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* era 6px */
+}
+
+.lieu-block .field-label {
+  margin-bottom: 0; /* cancela qualquer margin herdada */
+}
+
+.btn-gps {
+  margin-top: 2px; /* espaço mínimo visual */
+}

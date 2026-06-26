@@ -31,7 +31,7 @@ const onSubmit = async (data) => {
         console.error("Erreur:", error.response?.data);
     }
 };
-
+    /* function pour recuperer les coordonnes gps de ta position */
     const handleGPS = () => {
         if (!navigator.geolocation) {
             alert("La géolocalisation n'est pas supportée par votre navigateur.");
@@ -79,7 +79,7 @@ const onSubmit = async (data) => {
                             <label>Nom </label>
                         </div>
                     {errors.Name && <p className="error-message">{errors.Name.message}</p>}
-
+    
                         {/*L'age de l'animal */}
                     <div className="floating-label">
                     <input                    
@@ -106,7 +106,7 @@ const onSubmit = async (data) => {
                     <label>Numéro de puce (chip)</label>
                      </div>
 
-                     {/*Radio para selector s'il est vaccine */}
+                     {/*Radio para s s'il est vaccine */}
                     <div className="radio-block">
                         <span className="radio-label">Vacciné</span>
                         <div className="radio-group" >

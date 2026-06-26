@@ -4,6 +4,7 @@ import Home from "./home";
 import Welcome from "./welcome";
 import About from './About';
 import FormPerdu from './Formulaires/FormPerdu';
+import FormTrouve from './Formulaires/FormTrouve';
 function App() {
 
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/about" element={<About/>} />
         <Route path="/formperdu" element={<FormPerdu/>} /> 
+        <Route path="/formtrouve" element={<FormTrouve/>} /> 
       </Routes>
     </BrowserRouter>
   )
