@@ -3,6 +3,9 @@ import animalWorld from './assets/world-animal-day.png'
 import { Link } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
+import { Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from './Card';
 
 
 function Welcome() {
@@ -21,7 +24,6 @@ function Welcome() {
         return () => mediaQuery.removeEventListener('change', handleChange);
 
     }, []);
-
 
 
     return (<>
@@ -83,9 +85,9 @@ function Welcome() {
                     </li>
                 </ul>
             </aside>
+
         </div>
-    </>
-    )
+    </>)
 
 }
 

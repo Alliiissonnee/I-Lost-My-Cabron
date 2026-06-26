@@ -187,3 +187,19 @@ input.search {
     gap: 20px;
     pointer-events: auto;
 }
+
+.pet-profile{
+    border: 1px solid blue;
+    border-radius: 10px;
+    box-shadow:5px 5px 5px rgba(255, 255, 255, 0.623);
+    padding: 20px;
+    width: 400px;
+    height: 400px;
+    margin-left: 800px;
+
+}
+
+.pet-card {
+    display: flex;
+    text-align: center;
+}
