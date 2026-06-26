@@ -7,6 +7,7 @@ const authMiddleware = require('../middlewares/auth');
 const admin = require('../middlewares/admin');
 const crypto = require('crypto');
 const sendResetEmail = require('../automatisation/email');
+const { profile } = require('console');
 
 // Route inscription utilisateur
 router.post('/register', async function (req, res) {
@@ -77,10 +78,22 @@ router.post('/login', async function (req, res) {
 });
 
 // Route pour le comtpe invité (anonyme)
+
+function generateCode() {
+  return Math.floor(10000 + Math.random() * 90000).toString();
+  // génération du code à 5 chiffres qui sera envoyé par mail à la création d'un compte
+}
 router.post('/guest', async function (req, res) {
   try {
+    let code;
+    let codeExists = true;
+    while (codeExists){
+      code = generateCode();
+      codeExists = await User.findOne({trackingCode: code});
+    }
     const guest = new User({
-      profile: 'anonyme'
+      profile: 'anonyme',
+      trackingCode: code
     });
     await guest.save();
 
@@ -94,11 +107,52 @@ router.post('/guest', async function (req, res) {
       token: token,
       user: {
         id: guest._id,
-        profile: guest.profile
+        profile: guest.profile,
+        trackingCode: code
       }
     });
   } catch (error) {
     res.status(500).json({ message: "Erreur", error: error.message })
+  }
+});
+// Route pour se connecter avec le code compte invité
+router.post('/guest-login', async function (req, res) {
+  try{
+    const user = await User.findOne({
+      trackingCode: req.body.code,
+      profile: 'anonyme'
+    });
+    if (!user){
+      return res.status(404).json({message: "Code invalide"});
+    }
+    const token = jwt.sign(
+      {id: user._id, profile: user.profile},
+      process.env.JWT_SECRET,
+      {expiresIn:'7d'}
+    );
+    res.status(200).json({
+      message: "Connexion invité réussie",
+      token: token,
+      user: {
+        id: user._id,
+        profile: user.profile,
+        trackingCode: user.trackkingCode
+      }
+    });
+  } catch (error){
+    res.status(500).json({message: "Erreur", error: error.message});
+  }
+});
+
+// Synchronisation des données utilisateurs avec la base de donnée
+router.get('/me', authMiddleware, async function (req, res){
+  try {
+    const user = await User.findById(req.user.id).select('-password -resetPasswordToken -resetPasswordExpires');
+  if (!user){
+    return res.status(404).json({message: "Utilisateur introuvable"});
+  } res.status(200).json({user});
+  } catch (error){
+    res.status(500).json({message:"Erreur", error: error.message});
   }
 });
 

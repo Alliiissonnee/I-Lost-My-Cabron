@@ -54,6 +54,7 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+    // Pour mot de passe oublié
     resetPasswordToken: {
         type: String,
         default: null
@@ -62,6 +63,13 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+    // code que l'utilsateur invité (anonyme) recoit par email pour suivre ses annonces
+    trackingCode:{
+        type: String,
+        default: null, 
+        unique: true,
+        sparse: true
+    }
 },
     // Permet de ne pas afficher --v : 0 dans mongoDB
     { versionKey: false });

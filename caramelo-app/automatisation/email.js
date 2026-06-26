@@ -25,4 +25,5 @@ async function sendResetEmail(toEmail, resetToken) {
     });
 
 }
+
 module.exports = sendResetEmail;
