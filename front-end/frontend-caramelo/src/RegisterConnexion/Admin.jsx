@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Admin.css";
+import { useNavigate, Link } from "react-router";
+
 
 function Admin() {
+    const navigate = useNavigate();
+
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
     const token = localStorage.getItem("token");
+    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+    const administrator = storedUser && storedUser.profile === "admin";
+
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -50,11 +57,27 @@ function Admin() {
             }
         }
     };
-
+    if (!administrator) {
+        return (
+            <section className="admin-container">
+                <p className="access-denied">Accès réservé aux administrateurs.</p>
+                <Link to="/welcome" className="go-back-to-welcome">
+                    Retour à l'accueil
+                </Link>
+            </section>
+        );
+    }
     if (loading) return <p>Chargement...</p>;
-
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/welcome");
+    };
     return (
         <section className="admin-container">
+            <Link to="/welcome" className="go-back-to-welcome">
+                Retour à l'accueil
+            </Link>
             <h2>Gestion des utilisateurs</h2>
 
             {error && <p className="error-message">{error}</p>}
@@ -67,6 +90,12 @@ function Admin() {
                         <th>Email</th>
                         <th>Profil</th>
                         <th>Action</th>
+                        <th>Dernière connexion</th>
+
+                        <button onClick={handleLogout} className="logout-button">
+                            Se déconnecter
+                        </button>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +113,7 @@ function Admin() {
                                     Supprimer
                                 </button>
                             </td>
+                            <td>{user.lastConnection ? new Date(user.lastConnection).toLocaleString('fr-FR') : "Jamais"}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -7,8 +7,10 @@ import Register from './RegisterConnexion/Register';
 import Login from './RegisterConnexion/Login';
 import Guest from './RegisterConnexion/Guest';
 import Admin from './RegisterConnexion/Admin';
-
 import Account from './Account';
+import ForgotPassword from './RegisterConnexion/ForgotPassword';
+import ResetPassword from './RegisterConnexion/ResetPassword';
+import GuestLogin from './RegisterConnexion/GuestLogin';
 
 function App() {
 
@@ -21,8 +23,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/guest" element={<Guest />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/account" element={<Account/>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/guest-login" element={<GuestLogin />} />
       </Routes>
     </BrowserRouter>
   )

@@ -7,6 +7,8 @@ function Guest() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [trackingCode, setTrackingCode] = useState(null);
+
 
     const handleGuestLogin = async () => {
         setError("");
@@ -16,7 +18,7 @@ function Guest() {
             const response = await axios.post("http://localhost:3000/users/guest");
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
-            navigate("/welcome");
+            setTrackingCode(response.data.user.trackingCode);
         } catch (err) {
             setError("Impossible de créer un compte invité");
         } finally {
@@ -24,8 +26,25 @@ function Guest() {
         }
     };
 
+    // Affichage du code généré 
+    if (trackingCode) {
+        return (
+            <section className="guest-container">
+                <div className="guest-box">
+                    <h2>Votre code de suivi</h2>
+                    <p>Notez bien ce code, il vous permettra de retrouver vos annonces :</p>
+                    <p className="tracking-code">{trackingCode}</p>
+                    <button onClick={() => navigate("/welcome")}>
+                        J'ai noté mon code, continuer
+                    </button>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="guest-container">
+
             <div className="guest-box">
                 <h2>Continuer en tant qu'invité</h2>
                 <p>
@@ -41,6 +60,12 @@ function Guest() {
                 <p className="login-link">
                     Tu préfères un vrai compte ? <Link to="/register">S'inscrire</Link>
                 </p>
+                <p className="login-link">
+                    Tu as déjà un code de suivi ? <Link to="/guest-login">Le saisir</Link>
+                </p>
+                <Link to="/welcome" className="link_to_welcome">
+                    Retour à l'accueil
+                </Link>
             </div>
         </section>
     );

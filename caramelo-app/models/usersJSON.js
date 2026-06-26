@@ -49,6 +49,27 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
         // format Fr a faire dans le front-end seulement
     },
+    // Afficher la dernière connexion des utilisateurs
+    lastConnection: {
+        type: Date,
+        default: null
+    },
+    // Pour mot de passe oublié
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
+    },
+    // code que l'utilsateur invité (anonyme) visualise pour suivre ses annonces
+    trackingCode:{
+        type: String,
+        default: null, 
+        unique: true,
+        sparse: true
+    }
 },
     // Permet de ne pas afficher --v : 0 dans mongoDB
     { versionKey: false });

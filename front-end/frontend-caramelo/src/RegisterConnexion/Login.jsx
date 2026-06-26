@@ -7,6 +7,7 @@ import cabron from "../assets/Photo_i_lost_my_cabron.jpg";
 function Login() {
     // rediriger l'utilisateur :
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -34,10 +35,10 @@ function Login() {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
             //  Page de destination après connection
-            if (response.data.user.profile === 'admin'){
+            if (response.data.user.profile === 'admin') {
                 navigate("/admin");
-             } else {
-                 navigate("/welcome");
+            } else {
+                navigate("/account");
             }
         } catch (err) {
             if (err.response) {
@@ -78,10 +79,15 @@ function Login() {
                 <button type="submit" disabled={loading}>
                     {loading ? "Connexion..." : "Se connecter"}
                 </button>
-
+                <p className="login-link">
+                    <Link to="/forgot-password">Mot de passe oublié ?</Link> 
+                </p>
                 <p className="register-link">
                     Pas encore de compte? <Link to="/register">Créer un compte</Link>
                 </p>
+                <Link to="/welcome" className="link_to_welcome">
+                    Retour à l'accueil
+                </Link>
 
             </form>
         </section>

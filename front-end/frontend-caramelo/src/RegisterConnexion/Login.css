@@ -5,9 +5,9 @@
   min-height: 100vh;
   background-color: #FEFAF3;
   background-image: url("../assets/Photo_i_lost_my_cabron.jpg");
-  background-size: 20%;
+  background-size: 40%;
   background-repeat: no-repeat;
-  /* background-position: center; */
+  background-position: center;
 }
 
 .login-form {
@@ -19,11 +19,13 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 320px;
+  color: #072336;
 }
 
 .login-form h2 {
   text-align: center;
   margin-bottom: 8px;
+  color: #072336;
 }
 
 .login-form input {
@@ -43,6 +45,11 @@
   cursor: pointer;
 }
 
+.login-form button:hover {
+  background-color: #DC5D34;
+}
+
+
 .login-form button:disabled {
   background-color: #93c5fd;
   cursor: not-allowed;
@@ -61,3 +68,9 @@
   margin-top: 8px;
 }
 
+.success-message {
+  color: #16a34a;
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+}

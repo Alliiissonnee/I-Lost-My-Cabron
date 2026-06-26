@@ -42,6 +42,10 @@
   font-size: 15px;
   cursor: pointer;
 }
+.register-form button:hover {
+  background-color: #DC5D34;
+}
+
 
 .register-form button:disabled {
   background-color: #93c5fd;
