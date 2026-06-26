@@ -63,7 +63,7 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
-    // code que l'utilsateur invité (anonyme) recoit par email pour suivre ses annonces
+    // code que l'utilsateur invité (anonyme) visualise pour suivre ses annonces
     trackingCode:{
         type: String,
         default: null, 
