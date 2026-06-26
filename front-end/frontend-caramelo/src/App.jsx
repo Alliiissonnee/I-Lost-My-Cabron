@@ -10,6 +10,7 @@ import Admin from './RegisterConnexion/Admin';
 import Account from './Account';
 import ForgotPassword from './RegisterConnexion/ForgotPassword';
 import ResetPassword from './RegisterConnexion/ResetPassword';
+import GuestLogin from './RegisterConnexion/GuestLogin';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/guest-login" element={<GuestLogin />} />
       </Routes>
     </BrowserRouter>
   )
