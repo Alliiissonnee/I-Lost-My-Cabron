@@ -81,15 +81,15 @@ router.post('/login', async function (req, res) {
 
 function generateCode() {
   return Math.floor(10000 + Math.random() * 90000).toString();
-  // génération du code à 5 chiffres qui sera envoyé par mail à la création d'un compte
+  // génération du code à 5 chiffres qui sera envoyé à la création d'un compte invité
 }
 router.post('/guest', async function (req, res) {
   try {
     let code;
     let codeExists = true;
-    while (codeExists){
+    while (codeExists) {
       code = generateCode();
-      codeExists = await User.findOne({trackingCode: code});
+      codeExists = await User.findOne({ trackingCode: code });
     }
     const guest = new User({
       profile: 'anonyme',
@@ -115,20 +115,21 @@ router.post('/guest', async function (req, res) {
     res.status(500).json({ message: "Erreur", error: error.message })
   }
 });
+
 // Route pour se connecter avec le code compte invité
 router.post('/guest-login', async function (req, res) {
-  try{
+  try {
     const user = await User.findOne({
       trackingCode: req.body.code,
       profile: 'anonyme'
     });
-    if (!user){
-      return res.status(404).json({message: "Code invalide"});
+    if (!user) {
+      return res.status(404).json({ message: "Code invalide" });
     }
     const token = jwt.sign(
-      {id: user._id, profile: user.profile},
+      { id: user._id, profile: user.profile },
       process.env.JWT_SECRET,
-      {expiresIn:'7d'}
+      { expiresIn: '7d' }
     );
     res.status(200).json({
       message: "Connexion invité réussie",
@@ -139,20 +140,20 @@ router.post('/guest-login', async function (req, res) {
         trackingCode: user.trackkingCode
       }
     });
-  } catch (error){
-    res.status(500).json({message: "Erreur", error: error.message});
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message });
   }
 });
 
 // Synchronisation des données utilisateurs avec la base de donnée
-router.get('/me', authMiddleware, async function (req, res){
+router.get('/me', authMiddleware, async function (req, res) {
   try {
     const user = await User.findById(req.user.id).select('-password -resetPasswordToken -resetPasswordExpires');
-  if (!user){
-    return res.status(404).json({message: "Utilisateur introuvable"});
-  } res.status(200).json({user});
-  } catch (error){
-    res.status(500).json({message:"Erreur", error: error.message});
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    } res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message });
   }
 });
 
@@ -192,7 +193,7 @@ router.post('/forgot-password', async function (req, res) {
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
-    //await sendResetEmail(user.email, resetToken);
+    await sendResetEmail(user.email, resetToken);
     res.status(200).json({ message: "Si cet email existe, un lien a été envoyé." });
   } catch (error) {
     console.error("ERREUR FORGOT PASSWORD :", error);
@@ -216,6 +217,19 @@ router.post('/reset-password/:token', async function (req, res) {
     await user.save();
 
     res.status(200).json({ message: "Mot de passe réinitialisé avec succès" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message });
+  }
+});
+
+// Route pour supprimer son propre compte (pour chaque utilisateurs)
+router.delete('/me', authMiddleware, async function (req, res) {
+  try {
+    const deletUser = await User.findByIdAndDelete(req.user.id);
+    if (!deletUser) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    }
+    res.status(200).json({ message: "Votre compte a été supprimé avec succès" });
   } catch (error) {
     res.status(500).json({ message: "Erreur", error: error.message });
   }

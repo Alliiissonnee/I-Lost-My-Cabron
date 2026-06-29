@@ -18,85 +18,105 @@ function Account() {
         localStorage.removeItem("user");
         navigate("/welcome");
     };
-        useEffect(() => {
-            const mediaQuery = window.matchMedia('(prefers-color-scheme : dark)');
 
-            const handleChange = (e) => setIsDark(e.matches);
-            mediaQuery.addEventListener('change', handleChange);
+    const handleDeleteAccount = async () => {
+        const confirmed = window.confirm("Êtes-vous sur de vouloir supprimer votre compte ? Cette action est irréversible.");
+        if (!confirmed) return;
+        try {
+            const response = await fetch('http://localhost:3000/users/me', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const data = await response.json();
 
-            return () => mediaQuery.removeEventListener('change', handleChange);
+            if (response.ok) {
+                alert("Votre compte a été supprimé.");
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                navigate("/welcome");
+            } else {
+                alert("Erreur : " + data.message);
+            }
+        } catch (error) {
+            alert("Une erreur est survenue.");
+        }
+    };
 
-        }, []);
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme : dark)');
+        const handleChange = (e) => setIsDark(e.matches);
+        mediaQuery.addEventListener('change', handleChange);
+
+        return () => mediaQuery.removeEventListener('change', handleChange);
+
+    }, []);
+
+    return (<>
+        <div className='Welcome'>
+            <header className="Top">
+
+                {isDark ? (
+                    <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
+                ) : (
+                    <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
+                )}
+
+                <button type='button' className='menu' onClick={() => {
+                    setMenuOpen(!menuOpen)
+                }}>Menu</button>
 
 
+                <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
+                    <li>
+                        Voir les animaux trouvés
+                    </li>
+                    <li>
+                        Voir les animaux perdus
+                    </li>
+                    <li>
+                        Poster une annonce
+                    </li>
+                    <li>
+                        Modifier une annonce
+                    </li>
+                </ul>
 
-        return (<>
-            <div className='Welcome'>
-                <header className="Top">
-
-                    {isDark ? (
-                        <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
-                    ) : (
-                        <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
-                    )}
-
-                    <button type='button' className='menu' onClick={() => {
-                        setMenuOpen(!menuOpen)
-                    }}>Menu</button>
-
-
-                    <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
+                <section>
+                    <ul>
                         <li>
-                            Voir les animaux trouvés
+                            <Link to="/about">A propos de nous</Link>
                         </li>
                         <li>
-                            Voir les animaux perdus
+                            <Link to="/services">Services</Link>
                         </li>
                         <li>
-                            Poster une annonce
-                        </li>
-                        <li>
-                            Modifier une annonce
+                            <Link to="/contact">Contact</Link>
                         </li>
                     </ul>
+                </section>
 
-                    <section>
-                        <ul>
-                            <li>
-                                <Link to="/about">A propos de nous</Link>
-                            </li>
-                            <li>
-                                <Link to="/services">Services</Link>
-                            </li>
-                            <li>
-                                <Link to="/contact">Contact</Link>
-                            </li>
-                        </ul>
-                    </section>
+                <input type="text" className='search' />
 
-                    <input type="text" className='search' />
+            </header>
+            <aside>
+                <img src={animalWorld} className="login" alt="Sign up / in" onClick={() => {
+                    setLoginOpen(!loginOpen)
+                }} />
+                <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
+                    <li>
+                        <button onClick={handleLogout} className="logout">Se deconnecter</button>
+                    </li>
+                    <li>
+                        <button onClick={handleDeleteAccount} className="delete-account">Supprimer mon compte</button>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </>
+    )
 
-                </header>
-                <aside>
-                    <img src={animalWorld} className="login" alt="Sign up / in" onClick={() => {
-                        setLoginOpen(!loginOpen)
-                    }} />
+}
 
-                    <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
-                        <li>
-                            <button onClick={handleLogout} className="logout">Se deconnecter</button>
-                        </li>
-                        <li>
-                            Supprimer <br />
-                            mon compte
-                        </li>
-
-                    </ul>
-                </aside>
-            </div>
-        </>
-        )
-
-    }
-
-    export default Account
+export default Account
