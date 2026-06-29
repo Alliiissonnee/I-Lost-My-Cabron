@@ -12,6 +12,8 @@ import ForgotPassword from './RegisterConnexion/ForgotPassword';
 import ResetPassword from './RegisterConnexion/ResetPassword';
 import GuestLogin from './RegisterConnexion/GuestLogin';
 
+import FormPerdu from './Formulaires/FormPerdu';
+import FormTrouve from './Formulaires/FormTrouve';
 function App() {
 
   return (
@@ -28,9 +30,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/guest-login" element={<GuestLogin />} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/formperdu" element={<FormPerdu/>} /> 
+        <Route path="/formtrouve" element={<FormTrouve/>} /> 
       </Routes>
     </BrowserRouter>
   )
 }
 
-export default App
+export default App;

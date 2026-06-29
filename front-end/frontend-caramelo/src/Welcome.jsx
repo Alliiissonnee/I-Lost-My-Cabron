@@ -41,6 +41,7 @@ function Welcome() {
 
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
+                        
                         Animaux trouvés
                     </li>
                     <li>
