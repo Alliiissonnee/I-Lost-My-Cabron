@@ -145,6 +145,19 @@ router.post('/guest-login', async function (req, res) {
   }
 });
 
+// Route pour supprimer son propre compte (pour chaque utilisateurs)
+router.delete('/me', authMiddleware, async function (req, res) {
+  try {
+    const deletUser = await User.findByIdAndDelete(req.user.id);
+    if (!deletUser) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    }
+    res.status(200).json({ message: "Votre compte a été supprimé avec succès" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur", error: error.message });
+  }
+});
+
 // Synchronisation des données utilisateurs avec la base de donnée
 router.get('/me', authMiddleware, async function (req, res) {
   try {
@@ -182,8 +195,6 @@ router.delete('/:id', authMiddleware, admin, async function (req, res) {
 
 // Route demande de réinitialisation de mot de passe
 router.post('/forgot-password', async function (req, res) {
-  console.log("Route oubli mot de passe appelée");
-
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -217,19 +228,6 @@ router.post('/reset-password/:token', async function (req, res) {
     await user.save();
 
     res.status(200).json({ message: "Mot de passe réinitialisé avec succès" });
-  } catch (error) {
-    res.status(500).json({ message: "Erreur", error: error.message });
-  }
-});
-
-// Route pour supprimer son propre compte (pour chaque utilisateurs)
-router.delete('/me', authMiddleware, async function (req, res) {
-  try {
-    const deletUser = await User.findByIdAndDelete(req.user.id);
-    if (!deletUser) {
-      return res.status(404).json({ message: "Utilisateur introuvable" });
-    }
-    res.status(200).json({ message: "Votre compte a été supprimé avec succès" });
   } catch (error) {
     res.status(500).json({ message: "Erreur", error: error.message });
   }
