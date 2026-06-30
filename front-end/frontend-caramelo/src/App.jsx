@@ -4,6 +4,7 @@ import Home from "./home";
 import Welcome from "./welcome";
 import About from './About';
 import Account from './Account';
+import Card from './Card';
 
 function App() {
 
@@ -13,8 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/account" element={<Account/>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/account" element={<Account />} />
 
       </Routes>
     </BrowserRouter>

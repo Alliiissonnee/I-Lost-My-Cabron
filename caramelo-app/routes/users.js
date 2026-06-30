@@ -70,13 +70,13 @@ router.post('/login', async function (req, res) {
   }
 });
 
-// Route pour lister tous les utilisateurs (admins uniquement) par verification du token authMiddleware puis si c'est un admin
+// Route pour lister tous les utilisateurs (admins uniquement)
 router.get('/', authMiddleware, admin, async function (req, res) {
   try {
     const users = await User.find().select('-password');
     res.status(200).json({ users });
   } catch (error) {
-res.status(500).json({message:"Erreur", error:error.message});
+    res.status(500).json({ message: "Erreur", error: error.message });
   }
 });
 
@@ -94,5 +94,10 @@ router.delete('/:id', authMiddleware, admin, async function (req, res) {
 });
 
 
+
+/* GET users listing. */
+router.get('/', function (req, res, next) {
+  res.send('respond with a resource');
+});
 
 module.exports = router;

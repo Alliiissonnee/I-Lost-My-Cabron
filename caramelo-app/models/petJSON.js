@@ -74,6 +74,7 @@ router.get('/pets', async (req, res) => {
     try {
         const data = await Pets.find();
 
+
         if (!data.length) {
             return res.status(404).json({
                 message: "Aucune pet trouve avec notre recherche"
@@ -88,7 +89,9 @@ router.get('/pets', async (req, res) => {
 /* CRUD c'est pour lire une par une les archives provenants de la base de donnes (READ) */
 router.get('/pets/:id', async (req, res) => {
     try {
+
         const data = await Pets.findById(req.params.id);
+
         if (!data) {
             return res.status(404).json({
                 message: "Aucune pet trouve avec notre recherche"

@@ -3,9 +3,9 @@ import animalWorld from './assets/world-animal-day.png'
 import { Link } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
-import { Card } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from './Card';
+import { CardImg } from 'react-bootstrap';
 
 
 function Welcome() {
@@ -31,9 +31,9 @@ function Welcome() {
             <header className="Top">
 
                 {isDark ? (
-                <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
+                    <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
                 ) : (
-                <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
+                    <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
                 )}
 
                 <button type='button' className='menu' onClick={() => {
@@ -74,17 +74,20 @@ function Welcome() {
 
                 <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                       <Link to="/account">Se connecter</Link>                       
+                        <Link to="/account">Se connecter</Link>
                     </li>
                     <li>
-                       <Link to="/account">S'inscrire</Link>                      
+                        <Link to="/account">S'inscrire</Link>
 
                     </li>
                     <li>
-                       <Link to="/account">Compte invité</Link>
+                        <Link to="/account">Compte invité</Link>
                     </li>
                 </ul>
             </aside>
+            <Card>
+
+            </Card>
 
         </div>
     </>)
