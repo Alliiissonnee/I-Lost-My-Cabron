@@ -29,6 +29,7 @@ router.post('/register', async function (req, res) {
     });
 
   } catch (error) {
+    console.log(error);
     if (error.code === 11000) {
       return res.status(409).json({ message: "Cet email est déja utilisé" });
     }
@@ -232,5 +233,6 @@ router.post('/reset-password/:token', async function (req, res) {
     res.status(500).json({ message: "Erreur", error: error.message });
   }
 });
+
 
 module.exports = router;

@@ -64,11 +64,14 @@ const UserSchema = new mongoose.Schema({
         default: null
     },
     // code que l'utilsateur invité (anonyme) visualise pour suivre ses annonces
-    trackingCode:{
+    trackingCode: {
         type: String,
-        default: null, 
         unique: true,
         sparse: true
+    },
+    googleID: {
+        type: String,
+        unique: true
     }
 },
     // Permet de ne pas afficher --v : 0 dans mongoDB
