@@ -68,6 +68,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         unique: true,
         sparse: true
+    },
+    googleID: {
+        type: String,
+        unique: true
     }
 },
     // Permet de ne pas afficher --v : 0 dans mongoDB
