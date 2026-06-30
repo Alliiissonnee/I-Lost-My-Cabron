@@ -43,6 +43,7 @@ function Welcome() {
 
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
+                        
                         Animaux trouvés
                     </li>
                     <li>
@@ -74,14 +75,14 @@ function Welcome() {
 
                 <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                        <Link to="/account">Se connecter</Link>
+                       <Link to="/login">Se connecter</Link>                       
                     </li>
                     <li>
-                        <Link to="/account">S'inscrire</Link>
+                       <Link to="/register">S'inscrire</Link>                      
 
                     </li>
                     <li>
-                        <Link to="/account">Compte invité</Link>
+                       <Link to="/guest">Compte invité</Link>
                     </li>
                 </ul>
             </aside>
