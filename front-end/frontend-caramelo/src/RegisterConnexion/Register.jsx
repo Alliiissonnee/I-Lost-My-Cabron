@@ -98,7 +98,9 @@ function Register() {
                     {loading ? "Création..." : "S'inscrire"}
                 </button>
                 <p className="login-link">
-                    Déjà un compte ? <Link to="/login">Se connecter</Link> <hr />
+                    Déjà un compte ? <Link to="/login">Se connecter</Link>
+                </p>
+                <p className="guest-link">
                     Continuer avec un compte invité ? <Link to="/guest">Compte invité</Link>
                 </p>
                 <Link to="/welcome" className="link_to_welcome">

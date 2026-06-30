@@ -10,7 +10,7 @@ function About() {
 
          <h1> I Lost My Cabron</h1> <br />
 
-         <h2>Fun fact :</h2> Cet site à vu le jour pendant notre premier projet de groupe durant notre formation en développement-web, le nom à été trouver pendant une farce lorsque j'ai entendu mon ami <br />
+         <h2>Fun fact :</h2> Ce site à vu le jour pendant notre premier projet de groupe durant notre formation en développement-web, le nom à été trouver pendant une farce lorsque j'ai entendu mon ami <br />
          Brésilien, appelé le chien d'une collègue de la formation. Ce nom peut sembler vulgaire mais il à une autre conotation amicale <br />
          en langue hispanique cela peut se traduire : "mon pote", "mon copain", etc.<br />
 
