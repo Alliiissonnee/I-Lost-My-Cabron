@@ -201,3 +201,98 @@ input.search {
     gap: 20px;
     pointer-events: auto;
 }
+
+
+.cards-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+div.card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    height: 600px;
+    width: 500px;
+    border-radius: 0.5rem 0.5rem;  
+    transform: scale(1);
+    transition: transform 0.8s ease, box-shadow 0.8s ease;
+    animation: fadeIn 0.6s ease-out;
+    border:rgba(196, 196, 196, 0.253) 1px solid;
+}
+
+div.card:hover{
+    transform: scale(1.03);
+    box-shadow: -8px 8px 8px rgba(153, 153, 153, 0.082);
+}
+
+
+
+.card-img-top {
+    width: 500px;
+    height: 400px;
+    border: 1px solid rgb(212, 212, 221);
+    object-fit: cover;
+
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: default;
+    user-select: none;
+}
+
+.status-perdu {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+    width: 100px;
+    height: 50px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-trouve {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+    width: 100px;
+    height: 50px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: auto;
+    width: 400px;
+}
+
+
+.see-more-btn {
+    background: none;
+    border: none;
+    color: #ff9900;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.btn {
+    background-color: #072336;
+}
