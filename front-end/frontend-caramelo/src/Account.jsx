@@ -11,7 +11,6 @@ function Account() {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
-    const navigate = useNavigate();
     const [isDark, setIsDark] = useState(
         window.matchMedia('(prefers-color-scheme : dark)').matches
     );
@@ -55,7 +54,7 @@ function Account() {
 
     }, []);
 
-   {/*modification bien valide */}
+   
 
     return (<>
         <div className='Welcome'>
@@ -71,22 +70,31 @@ function Account() {
                     setMenuOpen(!menuOpen)
                 }}>Menu</button>
 
-
+               {/* Button pour donner acess aux deux formulaires perdu/trouve */}
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
-                        Voir les animaux trouvés
+                         <button  className="logout"> Voir tous les animaux trouvés </button>
                     </li>
                     <li>
-                        Voir les animaux perdus
+                       <button  className="logout"> Voir tous les animaux perdus</button>
                     </li>
-                    <li>
-                        Poster une annonce
+
+                    <li style={{position: "relative"}}>
+                    <button  className="logout" onClick={() => setOpen(!open)} > Poster une annonce </button>
                     </li>
-                    <li>
-                        Modifier une annonce
-                    </li>
+                    { open && (
+                    <ul style={{position: "absolute", left:"100%", top:100, listStyle: "none", display: "flex", flexDirection:"column", gap: "8px"}}>   
+                      <li>
+                      <button className="logout" onClick={() => navigate("/FormPerdu")}>Pet perdu</button> 
+                     </li>
+                     <hr style={{ width:"100%"}}/>
+                      <li>
+                      <button className="logout" onClick={() => navigate("/FormTrouve")}>Pet trouvé</button> 
+                      </li>
+                    </ul>
+                    )}
                 </ul>
-                   {/*modification */}
+
                 <section>
                     <ul>
                         <li>
