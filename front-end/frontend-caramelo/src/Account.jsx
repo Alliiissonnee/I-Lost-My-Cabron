@@ -54,7 +54,7 @@ function Account() {
 
     }, []);
 
-   
+   {/*modification bien valide */}
 
     return (<>
         <div className='Welcome'>
@@ -94,7 +94,7 @@ function Account() {
                     </ul>
                     )}
                 </ul>
-
+                   {/*modification */}
                 <section>
                     <ul>
                         <li>
