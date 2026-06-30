@@ -97,7 +97,7 @@ const navigate = useNavigate();
             <section className="perdu-container">
                 <form className="perdu-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                    <h3>J'AI PERDU MON PET 🐾</h3>
+                    <h3>J'AI PERDU MON ANIMAL 🐾</h3>
                     
                     {/*Nom de l'animal */}
                     <div className="floating-label">
@@ -123,7 +123,7 @@ const navigate = useNavigate();
                             pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
                         })}
                     />
-                       <label>Age (ex: 3 ans)</label>
+                       <label>Age</label>
                         </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 

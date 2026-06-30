@@ -101,7 +101,7 @@ const navigate = useNavigate();
             <section className="perdu-container">
                 <form className="perdu-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                    <h3>J'AI TROUVÉ UNE PET 🐾</h3>
+                    <h3>JE SIGNAL UN ANIMAL PERDU 🐾</h3>
 
 
                     {/*Pour la pulse et Alert du veterinaire*/}
