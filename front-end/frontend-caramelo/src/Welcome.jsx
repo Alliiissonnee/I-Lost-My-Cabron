@@ -1,12 +1,26 @@
 import photoCabron from './assets/Photo_i_lost_my_cabron.jpg';
 import animalWorld from './assets/world-animal-day.png'
 import { Link } from 'react-router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import logoCarameloDrk from './assets/logoCarameloDark.png';
 
 
 function Welcome() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [loginOpen, setLoginOpen] = useState(false)
+    const [isDark, setIsDark] = useState(
+        window.matchMedia('(prefers-color-scheme : dark)').matches
+    );
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme : dark)');
+
+        const handleChange = (e) => setIsDark(e.matches);
+        mediaQuery.addEventListener('change', handleChange);
+
+        return () => mediaQuery.removeEventListener('change', handleChange);
+
+    }, []);
 
 
 
@@ -14,7 +28,11 @@ function Welcome() {
         <div className='Welcome'>
             <header className="Top">
 
+                {isDark ? (
+                <img src={logoCarameloDrk} className="logo_cabron_drk" alt="Logo Cabron dark" />
+                ) : (
                 <img src={photoCabron} className="logo_cabron" alt="Logo Cabron" />
+                )}
 
                 <button type='button' className='menu' onClick={() => {
                     setMenuOpen(!menuOpen)
@@ -53,15 +71,16 @@ function Welcome() {
                     setLoginOpen(!loginOpen)
                 }} />
 
-                <ul className={`dropside-login ${loginOpen ? "open" : ""}`}>
+                <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                        Se connecter
+                       <Link to="/login">Se connecter</Link>                       
                     </li>
                     <li>
-                        S'inscrire
+                       <Link to="/register">S'inscrire</Link>                      
+
                     </li>
                     <li>
-                        Compte invité
+                       <Link to="/guest">Compte invité</Link>
                     </li>
                 </ul>
             </aside>

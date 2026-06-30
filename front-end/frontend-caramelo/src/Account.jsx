@@ -11,6 +11,7 @@ function Account() {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
+    const navigate = useNavigate();
     const [isDark, setIsDark] = useState(
         window.matchMedia('(prefers-color-scheme : dark)').matches
     );
@@ -70,29 +71,20 @@ function Account() {
                     setMenuOpen(!menuOpen)
                 }}>Menu</button>
 
-               {/* Button pour donner acess aux deux formulaires perdu/trouve */}
+
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
-                         <button  className="logout"> Voir tous les animaux trouvés </button>
+                        Voir les animaux trouvés
                     </li>
                     <li>
-                       <button  className="logout"> Voir tous les animaux perdus</button>
+                        Voir les animaux perdus
                     </li>
-
-                    <li style={{position: "relative"}}>
-                    <button  className="logout" onClick={() => setOpen(!open)} > Poster une annonce </button>
+                    <li>
+                        Poster une annonce
                     </li>
-                    { open && (
-                    <ul style={{position: "absolute", left:"100%", top:100, listStyle: "none", display: "flex", flexDirection:"column", gap: "8px"}}>   
-                      <li>
-                      <button className="logout" onClick={() => navigate("/FormPerdu")}>Pet perdu</button> 
-                     </li>
-                     <hr style={{ width:"100%"}}/>
-                      <li>
-                      <button className="logout" onClick={() => navigate("/FormTrouve")}>Pet trouvé</button> 
-                      </li>
-                    </ul>
-                    )}
+                    <li>
+                        Modifier une annonce
+                    </li>
                 </ul>
 
                 <section>

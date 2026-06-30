@@ -1,20 +1,16 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import axios from "axios";
-import "./Register.css";
+import "./Login.css";
+import cabron from "../assets/Photo_i_lost_my_cabron.jpg";
 
-function Register() {
+function Login() {
     // rediriger l'utilisateur :
     const navigate = useNavigate();
-    const [isDark, setIsDark] = useState(
-        window.matchMedia('(prefers-color-scheme : dark)').matches
-    );
+
     const [formData, setFormData] = useState({
-        surname: "",
-        firstname: "",
         email: "",
         password: "",
-        phone_number: "",
     });
 
     const [error, setError] = useState("");
@@ -31,11 +27,19 @@ function Register() {
 
         try {
             const response = await axios.post(
-                "http://localhost:3000/users/register",
+                "http://localhost:3000/users/login",
                 formData
             );
-            console.log("Utilisateur créé:", response.data);
-            navigate("/login");
+            console.log("Utilisateur connecté:", response.data);
+            // Stocke le token et les infos pour garder la session
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            //  Page de destination après connection
+            if (response.data.user.profile === 'admin') {
+                navigate("/admin");
+            } else {
+                navigate("/account");
+            }
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.message || "Une erreur est survenue");
@@ -49,26 +53,12 @@ function Register() {
 
 
     return (
-        <section className="register-container">
-            <form className="register-form" onSubmit={handleSubmit}>
-                <h2>Bienvenu</h2>
+        <section className="login-container">
+
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h2>Bienvenue</h2>
                 {error && <p className="error-message">{error}</p>}
-                <input
-                    type="text"
-                    name="firstname"
-                    placeholder="Prénom"
-                    value={formData.firstname}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="surname"
-                    placeholder="Nom"
-                    value={formData.surname}
-                    onChange={handleChange}
-                    required
-                />
+
                 <input
                     type="email"
                     name="email"
@@ -85,30 +75,22 @@ function Register() {
                     onChange={handleChange}
                     required
                 />
-                <input
-                    type="tel"
-                    name="phone_number"
-                    placeholder="Numéro de téléphone"
-                    value={formData.phone_number}
-                    onChange={handleChange}
-                    required
-                />
 
                 <button type="submit" disabled={loading}>
-                    {loading ? "Création..." : "S'inscrire"}
+                    {loading ? "Connexion..." : "Se connecter"}
                 </button>
                 <p className="login-link">
-                    Déjà un compte ? <Link to="/login">Se connecter</Link>
+                    <Link to="/forgot-password">Mot de passe oublié ?</Link> 
                 </p>
-                <p>
-                    Déjà un compte ? <Link to="/login">Se connecter</Link> <hr />
-                    Continuer avec un compte invité ? <Link to="/guest">Compte invité</Link>
+                <p className="register-link">
+                    Pas encore de compte? <Link to="/register">Créer un compte</Link>
                 </p>
                 <Link to="/welcome" className="link_to_welcome">
                     Retour à l'accueil
                 </Link>
+
             </form>
         </section>
     );
 }
-export default Register;
+export default Login;
