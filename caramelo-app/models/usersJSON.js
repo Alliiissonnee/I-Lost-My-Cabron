@@ -64,8 +64,8 @@ const UserSchema = new mongoose.Schema({
         default: null
     },
     // code que l'utilsateur invité (anonyme) visualise pour suivre ses annonces
-    trackingCode: {
-        type: String,
+    trackingCode:{
+        type: String, 
         unique: true,
         sparse: true
     },

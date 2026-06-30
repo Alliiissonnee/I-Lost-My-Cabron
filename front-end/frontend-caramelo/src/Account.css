@@ -27,3 +27,11 @@
   text-decoration: underline;
   color: rgb(255, 0, 43);
 }
+
+.dropside-menu ul {
+    background: inherit;
+    color: inherit;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}

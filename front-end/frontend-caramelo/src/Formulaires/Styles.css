@@ -151,9 +151,10 @@
 }
 
 .radio-label {
-  font-size: 14px;
-  color: #1a1a1a;
-  font-weight: 500;
+    color: #8d8b8b;
+  font-family: inherit;
+  font-size: 16px;
+ 
 }
 
 .radio-group {
@@ -264,9 +265,7 @@
     transform: translateY(-50%);
 }
 
-.radio-label {
-  color: #807a7a;
-}
+
 
 h3 {
   color: #0f3d5c;
