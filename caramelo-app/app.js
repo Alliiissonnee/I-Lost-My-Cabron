@@ -18,13 +18,14 @@ var petJSON = require('./models/petJSON');
 var app = express();
 const authRoutes = require('./routes/loginGoogle');
 
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 
 app.use('/api/auth', authRoutes);
 

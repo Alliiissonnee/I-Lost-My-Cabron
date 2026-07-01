@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router";
 import axios from "axios";
 import "./Login.css";
 import cabron from "../assets/Photo_i_lost_my_cabron.jpg";
+import LoginGoogle from "./LoginGoogle";
 
 function Login() {
     // rediriger l'utilisateur :
@@ -79,8 +80,10 @@ function Login() {
                 <button type="submit" disabled={loading}>
                     {loading ? "Connexion..." : "Se connecter"}
                 </button>
+                <p className="connexionGoogle">ou</p>
+                <LoginGoogle />
                 <p className="login-link">
-                    <Link to="/forgot-password">Mot de passe oublié ?</Link> 
+                    <Link to="/forgot-password">Mot de passe oublié ?</Link>
                 </p>
                 <p className="register-link">
                     Pas encore de compte? <Link to="/register">Créer un compte</Link>
@@ -88,7 +91,6 @@ function Login() {
                 <Link to="/welcome" className="link_to_welcome">
                     Retour à l'accueil
                 </Link>
-
             </form>
         </section>
     );
