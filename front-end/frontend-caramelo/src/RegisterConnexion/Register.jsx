@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import axios from "axios";
 import "./Register.css";
+import LoginGoogle from "./LoginGoogle";
 
 function Register() {
     // rediriger l'utilisateur :
@@ -97,6 +98,8 @@ function Register() {
                 <button type="submit" disabled={loading}>
                     {loading ? "Création..." : "S'inscrire"}
                 </button>
+                <p className="connexionGoogle">ou</p>
+                <LoginGoogle />
                 <p className="login-link">
                     Déjà un compte ? <Link to="/login">Se connecter</Link>
                 </p>
