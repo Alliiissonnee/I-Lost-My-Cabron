@@ -5,10 +5,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import axios from "axios";
 import dayjs from "dayjs";
-
+import { useNavigate } from "react-router";
 import "dayjs/locale/fr";
 import "./Styles.css";
 dayjs.locale("fr"); 
+import { supabase } from "../supabase";
+
+
+/*Permettre que le useForm recuperer les resultats em form d'une objet et les reagrouper */
 const FormPerdu = () => {
     const {
         register,
@@ -18,19 +22,9 @@ const FormPerdu = () => {
         formState: { errors, isSubmitting },
     } = useForm();
 
-const onSubmit = async (data) => {
-    const { Photo, ...resto } = data;
-    const dataFormate = {
-        ...resto,
-        Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
-    };
-    try {
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
-    } catch (error) {
-        console.error("Erreur:", error.response?.data);
-    }
-};
+//Rechargement de la page apres l'envoie du formulaire
+const navigate = useNavigate();  
+
     /* function pour recuperer les coordonnes gps de ta position */
     const handleGPS = () => {
         if (!navigator.geolocation) {
@@ -53,6 +47,43 @@ const onSubmit = async (data) => {
         );
     };
 
+    /* function pour agrouper les donnes reçus au formulaire et les envoyer a la base de donnes(mongoDB) plus supabasepour armazener les photos e returner une lien public */
+     const onSubmit = async (data) => {
+    const { Photo, ...resto } = data;
+    let photoUrl = "";
+ 
+    try {
+        if (Photo && Photo.length > 0) {
+            const file = Photo[0];
+            const fileName = `${Date.now()}_${file.name}`;
+ 
+            const { error: uploadError } = await supabase.storage
+                .from("photos")
+                .upload(fileName, file);
+ 
+            if (uploadError) throw uploadError;
+ 
+            const { data: publicUrlData } = supabase.storage
+                .from("photos")
+                .getPublicUrl(fileName);
+ 
+            photoUrl = publicUrlData.publicUrl;
+        }
+ 
+        const dataFormate = {
+            ...resto,
+            Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
+            Photo: photoUrl,
+        };
+ 
+        await axios.post("http://localhost:3000/pets", dataFormate);
+        console.log("Envoie confirme");
+         navigate("/account");
+    } catch (error) {
+        console.error("Erreur:", error.response?.data || error.message);
+    }
+};
+
     return (
         <LocalizationProvider  dateAdapter={AdapterDayjs} 
     adapterLocale="fr"
@@ -66,7 +97,7 @@ const onSubmit = async (data) => {
             <section className="perdu-container">
                 <form className="perdu-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                    <h3>J'AI PERDU MON PET 🐾</h3>
+                    <h3>J'AI PERDU MON ANIMAL 🐾</h3>
                     
                     {/*Nom de l'animal */}
                     <div className="floating-label">
@@ -92,7 +123,7 @@ const onSubmit = async (data) => {
                             pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
                         })}
                     />
-                       <label>Age (ex: 3 ans)</label>
+                       <label>Age</label>
                         </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 
@@ -108,7 +139,7 @@ const onSubmit = async (data) => {
 
                      {/*Radio para s s'il est vaccine */}
                     <div className="radio-block">
-                        <span className="radio-label">Vacciné</span>
+                        <span className="radio-label">Vaccination à jour ?</span>
                         <div className="radio-group" >
                             <label><input type="radio" value="oui" {...register("Vaccine")} /> Oui</label>
                             <label><input type="radio" value="non" {...register("Vaccine")} /> Non</label>

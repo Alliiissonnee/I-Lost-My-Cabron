@@ -1,4 +1,4 @@
-/**Installation do (dotenv) le lien est securise avec gitIGNORE dans le fichier (.env)  doit être tout en haut du fichier*/
+/**Installation do (dotenv) le lien est securise avec gitIGNORE dans le fichier (.env)  */
 require('dotenv').config();
 
 var express = require('express');
@@ -13,14 +13,15 @@ const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var User = require('./models/usersJSON');
-var petJSON = require('./models/petJSON');
 var annoncesRouter = require('./routes/annonces');
+var petJSON = require('./models/petJSON');
 var app = express();
 const authRoutes = require('./routes/loginGoogle');
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/annonces', annoncesRouter);
+
 app.use('/', petJSON);
 
 /*Connection du Back-end avec la base de donnes(MongoDB) (verifier le fichier(.env)*/

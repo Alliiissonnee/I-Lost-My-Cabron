@@ -103,6 +103,9 @@ function Register() {
                 <p className="login-link">
                     Déjà un compte ? <Link to="/login">Se connecter</Link>
                 </p>
+                <p>
+                    Déjà un compte ? <Link to="/login">Se connecter</Link>
+                </p>
                 <p className="guest-link">
                     Continuer avec un compte invité ? <Link to="/guest">Compte invité</Link>
                 </p>

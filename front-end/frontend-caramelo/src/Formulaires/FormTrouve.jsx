@@ -5,10 +5,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import axios from "axios";
 import dayjs from "dayjs";
-
+import { useNavigate } from "react-router";
 import "dayjs/locale/fr";
 import "./Styles.css";
 dayjs.locale("fr"); 
+import { supabase } from "../supabase";
+
+
+/*Permettre que le useForm recuperer les resultats em form d'une objet et les reagrouper */
 const FormPerdu = () => {
     const {
         register,
@@ -21,20 +25,10 @@ const FormPerdu = () => {
 
 const vet = watch("Vet");
 
-const onSubmit = async (data) => {
-    const { Photo, ...resto } = data;
-    const dataFormate = {
-        ...resto,
-        Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
-    };
-    try {
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
-    } catch (error) {
-        console.error("Erreur:", error.response?.data);
-    }
-};
+//Rechargement de la page apres l'envoie du formulaire
+const navigate = useNavigate();
 
+    /* function pour recuperer les coordonnes gps de ta position */
     const handleGPS = () => {
         if (!navigator.geolocation) {
             alert("La géolocalisation n'est pas supportée par votre navigateur.");
@@ -56,11 +50,44 @@ const onSubmit = async (data) => {
         );
     };
 
+    
+    /* function pour agrouper les donnes reçus au formulaire et les envoyer a la base de donnes(mongoDB) plus supabasepour armazener les photos e returner une lien public */
+     const onSubmit = async (data) => {
+    const { Photo, ...resto } = data;
+    let photoUrl = "";
+ 
+    try {
+        if (Photo && Photo.length > 0) {
+            const file = Photo[0];
+            const fileName = `${Date.now()}_${file.name}`;
+ 
+            const { error: uploadError } = await supabase.storage
+                .from("photos")
+                .upload(fileName, file);
+ 
+            if (uploadError) throw uploadError;
+ 
+            const { data: publicUrlData } = supabase.storage
+                .from("photos")
+                .getPublicUrl(fileName);
+ 
+            photoUrl = publicUrlData.publicUrl;
+        }
+ 
+        const dataFormate = {
+            ...resto,
+            Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
+            Photo: photoUrl,
+        };
 
-
-
-
-
+        await axios.post("http://localhost:3000/pets", dataFormate);
+        console.log("Envoie confirme");
+         navigate("/account");
+    } catch (error) {
+        console.error("Erreur:", error.response?.data || error.message);
+    }
+};
+ 
     return (
         <LocalizationProvider  dateAdapter={AdapterDayjs} 
     adapterLocale="fr"
@@ -74,7 +101,7 @@ const onSubmit = async (data) => {
             <section className="perdu-container">
                 <form className="perdu-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 
-                    <h3>J'AI TROUVÉ UNE PET 🐾</h3>
+                    <h3>JE SIGNAL UN ANIMAL PERDU 🐾</h3>
 
 
                     {/*Pour la pulse et Alert du veterinaire*/}
