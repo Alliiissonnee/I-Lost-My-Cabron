@@ -25,7 +25,7 @@ const FormPerdu = () => {
         reset,
         formState: { errors, isSubmitting },
     } = useForm();
-
+ 
 
 
  const navigate = useNavigate();
@@ -124,7 +124,7 @@ useEffect(() => {
         }
 
         const token = localStorage.getItem("token");
- 
+
   /*O status est ajoute directement au back-end au moment de l'envoi du formulaire */
         const dataFormate = {
             ...resto,

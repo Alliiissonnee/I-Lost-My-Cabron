@@ -37,8 +37,8 @@ function AnimalCard({ animal }) {
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-
-                {/* <div className="card-actions">
+            
+                 {/* <div className="card-actions">
                     <Button variant="primary" size="sm">Modifier</Button>
                     <Button variant="danger" size="sm">Supprimer</Button>
                 </div>  */}

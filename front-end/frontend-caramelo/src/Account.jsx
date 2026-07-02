@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
-import axios from "axios";  
+import axios from "axios";
 import { Card, Accordion, Button, ListGroup } from 'react-bootstrap';
 
 function Account() {
@@ -83,20 +83,20 @@ function Account() {
     useEffect(() => {
         const chercherPets = async () => {
             try {
-            const token = localStorage.getItem("token");
+                const token = localStorage.getItem("token");
                 const response = await axios.get("http://localhost:3000/pets/mine", {
-                headers: {
-                Authorization: `Bearer ${token}`
-                }
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 });
                 setListPets(response.data);
-         } catch (error) {
-            console.error("Erreur:", error.response?.data || error.message);
-         }
+            } catch (error) {
+                console.error("Erreur:", error.response?.data || error.message);
+            }
         };
-         chercherPets();
+        chercherPets();
     }, []);
-     
+
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -134,8 +134,8 @@ function Account() {
                             setFiltrePet("tous");
                         }}
                     >
-                        Voir tous les animaux
-                    </button>
+                            Voir tous les animaux
+                        </button>
                     </li>
                     <li>
                         <button
@@ -175,7 +175,7 @@ function Account() {
                         <button className='logout' onClick={() => navigate("/account")}> Voir mes annonces</button>
                     </li>
                 </ul>
-                    <br/>
+                <br/>
                 <section>
                     <ul>
                         <li>
@@ -209,11 +209,11 @@ function Account() {
             </aside>
 
             <main className="account-content">
-            {user && (
+                {user && (
                 <h1>
                     Bienvenue {user.firstname} !
                 </h1>
-            )}
+                )}
 
                 {petsFiltres.length === 0 ? (
                     <p className="no-annonce">Vous n'avez pas encore publié d'annonce..</p>
@@ -261,7 +261,7 @@ function Account() {
             </main>
 
         </div>
-        
+
     </>
     )
 }

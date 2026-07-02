@@ -5,10 +5,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useNavigate, useParams} from "react-router";
+import { useNavigate, useParams } from "react-router";
 import "dayjs/locale/fr";
 import "./Styles.css";
-dayjs.locale("fr"); 
+dayjs.locale("fr");
 import { supabase } from "../supabase";
 import { useEffect, useState } from "react";
 
@@ -26,38 +26,38 @@ const FormPerdu = () => {
         formState: { errors, isSubmitting },
     } = useForm();
 
-//Rechargement de la page apres l'envoie du formulaire
-const navigate = useNavigate();  
-const { id } = useParams();
-const isEditMode = Boolean(id);
-const [currentPhoto, setCurrentPhoto] = useState("");
+    //Rechargement de la page apres l'envoie du formulaire
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const isEditMode = Boolean(id);
+    const [currentPhoto, setCurrentPhoto] = useState("");
 
-useEffect(() => {
-    if (!isEditMode) return;
+    useEffect(() => {
+        if (!isEditMode) return;
 
-    const fetchPet = async () => {
-       
-        try {
-            const token = localStorage.getItem("token");
-            const response = await axios.get(`http://localhost:3000/pets/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const pet = response.data;
-            setCurrentPhoto(pet.Photo);
-            reset({
-                ...pet,
-                Date_time: dayjs(pet.Date_time, "DD/MM/YYYY HH:mm"),
-            });
-        } catch (error) {
-            console.error("Erreur chargement pet:", error.response?.data || error.message);
-        }
-    };
-    fetchPet();
-}, [id]);
+        const fetchPet = async () => {
+
+            try {
+                const token = localStorage.getItem("token");
+                const response = await axios.get(`http://localhost:3000/pets/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const pet = response.data;
+                setCurrentPhoto(pet.Photo);
+                reset({
+                    ...pet,
+                    Date_time: dayjs(pet.Date_time, "DD/MM/YYYY HH:mm"),
+                });
+            } catch (error) {
+                console.error("Erreur chargement pet:", error.response?.data || error.message);
+            }
+        };
+        fetchPet();
+    }, [id]);
 
 
     /* function pour recuperer les coordonnes gps de ta position */
-     const handleGPS = () => {
+    const handleGPS = () => {
         if (!navigator.geolocation) {
             alert("La géolocalisation n'est pas supportée par votre navigateur.");
             return;
@@ -97,109 +97,110 @@ useEffect(() => {
     };
 
     /* function pour agrouper les donnes reçus au formulaire et les envoyer a la base de donnes(mongoDB) plus supabasepour armazener les photos e returner une lien public */
-     const onSubmit = async (data) => {
-    const { Photo, ...resto } = data;
-    let photoUrl = currentPhoto;
-    const Status = "perdu";    
- 
-    try {
-        if (Photo.length > 0) {
-            const file = Photo[0];
-            const fileName = `${Date.now()}_${file.name}`;
- 
-            const { error: uploadError } = await supabase.storage
-                .from("photos")
-                .upload(fileName, file);
- 
-            if (uploadError) throw uploadError;
- 
-            const { data: publicUrlData } = supabase.storage
-                .from("photos")
-                .getPublicUrl(fileName);
- 
-            photoUrl = publicUrlData.publicUrl;
-        }
- 
-        const token = localStorage.getItem("token");
-            /*O status est ajoute directement au back-end au moment de l'envoi du formulaire */
-        const dataFormate = {
-            ...resto,
-            Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
-            Photo: photoUrl,
-            Status: Status
-        };
-       
-       if (isEditMode) {
-            await axios.put(`http://localhost:3000/pets/${id}`, dataFormate, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-        } else {
-        await axios.post("http://localhost:3000/pets", dataFormate, {
-            headers:{
-                Authorization: `Bearer ${token}`
+    const onSubmit = async (data) => {
+        const { Photo, ...resto } = data;
+        let photoUrl = currentPhoto;
+        const Status = "perdu";
+
+        try {
+            if (Photo.length > 0) {
+                const file = Photo[0];
+                const fileName = `${Date.now()}_${file.name}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from("photos")
+                    .upload(fileName, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data: publicUrlData } = supabase.storage
+                    .from("photos")
+                    .getPublicUrl(fileName);
+
+                photoUrl = publicUrlData.publicUrl;
             }
-        });
-         navigate("/account");
-    } catch (error) {
-        console.log(error)
-        console.error("Erreur:", error.response?.data || error.message);
-    }
-};
+
+            const token = localStorage.getItem("token");
+            /*O status est ajoute directement au back-end au moment de l'envoi du formulaire */
+            const dataFormate = {
+                ...resto,
+                Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
+                Photo: photoUrl,
+                Status: Status
+            };
+
+            if (isEditMode) {
+                await axios.put(`http://localhost:3000/pets/${id}`, dataFormate, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            } else {
+                await axios.post("http://localhost:3000/pets", dataFormate, {
+                    headers:{
+                        Authorization: `Bearer ${token}`
+                    }});
+            }
+
+            navigate("/account");
+        } catch (error) {
+            console.log(error)
+            console.error("Erreur:", error.response?.data || error.message);
+        }
+    };
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}
-    adapterLocale="fr"
-    localeText={{
-        fieldDayPlaceholder: () => "JJ",
-        fieldMonthPlaceholder: () => "MM",
-        fieldYearPlaceholder: () => "AAAA",
-        fieldHoursPlaceholder: () => "HH",
-        fieldMinutesPlaceholder: () => "mm",
-    }}>
+            adapterLocale="fr"
+            localeText={{
+                fieldDayPlaceholder: () => "JJ",
+                fieldMonthPlaceholder: () => "MM",
+                fieldYearPlaceholder: () => "AAAA",
+                fieldHoursPlaceholder: () => "HH",
+                fieldMinutesPlaceholder: () => "mm",
+            }}>
             <section className="perdu-container">
                 <form className="perdu-form" onSubmit={handleSubmit(onSubmit)} noValidate>
 
                     <h3>J'AI PERDU MON ANIMAL 🐾</h3>
-                    
+
                     {/*Nom de l'animal */}
                     <div className="floating-label">
-                            <input
-                                type="text"
-                                placeholder=" "
-                                className={errors.Name ? "input-error" : ""}
-                                {...register("Name", { required: "Le nom est obligatoire" })}
-                            />
-                            <label>Nom </label>
-                        </div>
+                        <input
+                            type="text"
+                            placeholder=" "
+                            className={errors.Name ? "input-error" : ""}
+                            {...register("Name", { required: "Le nom est obligatoire" })}
+                        />
+                        <label>Nom </label>
+                    </div>
                     {errors.Name && <p className="error-message">{errors.Name.message}</p>}
-    
-                        {/*L'age de l'animal */}
+
+                    {/*L'age de l'animal */}
                     <div className="floating-label">
-                    <input                    
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        placeholder=" "
-                        className={errors.Age ? "input-error" : ""}
-                        {...register("Age", {
-                            pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
-                        })}
-                    />
-                       <label>Age</label>
-                        </div>
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            placeholder=" "
+                            className={errors.Age ? "input-error" : ""}
+                            {...register("Age", {
+                                pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
+                            })}
+                        />
+                        <label>Age</label>
+                    </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 
-                        {/*Numero de la pulse do chien */}
-                       <div className="floating-label">
-                    <input
-                        type="text"
-                        placeholder=""
-                        {...register("Chip_number")}
-                    />
-                    <label>Numéro de puce (chip)</label>
-                     </div>
+                    {/*Numero de la pulse do chien */}
+                    <div className="floating-label">
+                        <input
+                            type="text"
+                            placeholder=""
+                            {...register("Chip_number")}
+                        />
+                        <label>Numéro de puce (chip)</label>
+                    </div>
 
-                     {/*Radio para s s'il est vaccine */}
+                    {/*Radio para s s'il est vaccine */}
                     <div className="radio-block">
                         <span className="radio-label">Vaccination à jour ?</span>
                         <div className="radio-group" >
@@ -208,8 +209,8 @@ useEffect(() => {
                         </div>
                     </div>
 
-                     {/*Selector de species */}   
-                        <p></p>                      
+                    {/*Selector de species */}
+                    <p></p>
                     <select
                         className={errors.Species ? "input-error" : ""}
                         {...register("Species", { required: "Veuillez choisir une espèce" })}
@@ -220,14 +221,14 @@ useEffect(() => {
                         <option value="equides">Équidés</option>
                     </select>
                     {errors.Species && <p className="error-message">{errors.Species.message}</p>}
-                        <p></p>
-                     <div className="floating-label">
-                    <input
-                        type="text"
-                        placeholder=" "
-                        {...register("Race")}
-                    />     
-                    <label>Race — ex : Labrador, Berger allemand…</label>
+                    <p></p>
+                    <div className="floating-label">
+                        <input
+                            type="text"
+                            placeholder=" "
+                            {...register("Race")}
+                        />
+                        <label>Race — ex : Labrador, Berger allemand…</label>
                     </div>
 
                     {/* Date et Heure  */}
@@ -237,7 +238,7 @@ useEffect(() => {
                             control={control}
                             rules={{ required: "La date et l'heure sont obligatoires" }}
                             render={({ field }) => (
-                               <DateTimePicker
+                                <DateTimePicker
                                     label="Date et heure de disparition"
                                     value={field.value ?? null}
                                     onChange={(val) => field.onChange(val)}
@@ -253,7 +254,7 @@ useEffect(() => {
                                             className: errors.Date_time ? "input-error" : "",
                                         },
                                     }}
-                               />
+                                />
                             )}
                         />
                         {errors.Date_time && (
@@ -261,7 +262,7 @@ useEffect(() => {
                         )}
                     </div>
 
-                        {/*Button ma position, plus place pour ecrire la ville ou vous avez perdu */}
+                    {/*Button ma position, plus place pour ecrire la ville ou vous avez perdu */}
                     <div className="lieu-block">
                         <label className="field-label">Lieu de disparition </label>
                         <input
@@ -276,7 +277,7 @@ useEffect(() => {
                         </button>
                     </div>
 
-                        {/*Pour recuperer la photo chez la galerie */}
+                    {/*Pour recuperer la photo chez la galerie */}
                     <div className="datetime-block">
                         <label className="field-label">Photo de l'animal</label>
                         <input
@@ -287,14 +288,14 @@ useEffect(() => {
                         />
                     </div>
 
-                        {/*Text area pour decrire l'animal perdu */}
+                    {/*Text area pour decrire l'animal perdu */}
                     <textarea
                         rows={3}
                         placeholder="Description — ex : collier bleu, tache blanche sur le dos…"
                         {...register("Description")}
                     />
 
-                        {/*Button pour signaliser le animal perdu */}
+                    {/*Button pour signaliser le animal perdu */}
                     <button type="submit" className="btn-submit" disabled={isSubmitting}>
                         {isSubmitting ? "Envoi en cours..." : "Signaler un animal perdu"}
                     </button>
