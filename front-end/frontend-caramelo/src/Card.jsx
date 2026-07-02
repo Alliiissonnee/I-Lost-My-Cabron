@@ -41,7 +41,7 @@ function AnimalCard({ animal }) {
                 {/* <div className="card-actions">
                     <Button variant="primary" size="sm">Modifier</Button>
                     <Button variant="danger" size="sm">Supprimer</Button>
-                </div> */}
+                </div>  */}
             </Card.Body>
         </Card >
     );

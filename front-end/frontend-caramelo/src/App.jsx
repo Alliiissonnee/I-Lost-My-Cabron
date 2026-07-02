@@ -32,7 +32,9 @@ function App() {
         <Route path="/guest-login" element={<GuestLogin />} />
         <Route path="/about" element={<About />} />
         <Route path="/formperdu" element={<FormPerdu />} />
+        <Route path="/formperdu/:id" element={<FormPerdu />} />
         <Route path="/formtrouve" element={<FormTrouve />} />
+        <Route path="/formtrouve/:id" element={<FormTrouve />} />
         <Route path="/LoginGoogle" element={<LoginGoogle />} />
       </Routes>
     </BrowserRouter>

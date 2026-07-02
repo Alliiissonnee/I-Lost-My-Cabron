@@ -5,9 +5,7 @@ import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
 import axios from "axios";  
-import Button from 'react-bootstrap/Button';
-import Card from './Card';
-import { CardImg } from 'react-bootstrap';
+import { Card, Accordion, Button, ListGroup } from 'react-bootstrap';
 
 function Account() {
     const [listPets, setListPets] = useState([]);
@@ -53,6 +51,25 @@ function Account() {
         }
     };
 
+    const handleDeletePet = async (id) => {
+        const confirmed = window.confirm("Voulez-vous supprimer cette annonce ?");
+        if (!confirmed) return;
+        try {
+            const token = localStorage.getItem("token");
+            await axios.delete(`http://localhost:3000/pets/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setListPets((prev) => prev.filter((pet) => pet._id !== id));
+        } catch (error) {
+            console.error("Erreur suppression:", error.response?.data || error.message);
+            alert("Impossible de supprimer cette annonce.");
+        }
+    };
+
+    const handleEditPet = (id) => {
+        navigate(`/formperdu/${id}`);
+    };
+
     // darkmode
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme : dark)');
@@ -67,7 +84,7 @@ function Account() {
         const chercherPets = async () => {
             try {
             const token = localStorage.getItem("token");
-               const response= await axios.get("http://localhost:3000/pets/mine", {
+                const response = await axios.get("http://localhost:3000/pets/mine", {
                 headers: {
                 Authorization: `Bearer ${token}`
                 }
@@ -80,13 +97,19 @@ function Account() {
          chercherPets();
     }, []);
      
+    useEffect(() => {
         const storedUser = localStorage.getItem("user");
-
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
     }, []);
 
+    // Filtre les pets selon le statut choisi dans le menu (deja filtres par Owner via /pets/mine)
+    const normalise = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const petsFiltres = listPets.filter((pet) => {
+        if (filtrePet === "tous") return true;
+        return normalise(pet.Status) === normalise(filtrePet);
+    });
 
     return (<>
         <div className='Welcome'>
@@ -140,13 +163,12 @@ function Account() {
                     {open && (
                         <ul style={{ position: "absolute", left: "100%", top: 100, listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
                             <li>
-                                <button className="logout" onClick={() => navigate("/FormPerdu")}>Pet perdu</button>
+                                <button className="logout" onClick={() => navigate("/FormPerdu")}>J'ai perdu</button>
                             </li>
                             <hr style={{ width: "100%" }} />
                             <li>
                                 <button className="logout" onClick={() => navigate("/FormTrouve")}>Pet trouvé</button>
                             </li>
-
                         </ul>
                     )}
                     <li>
@@ -185,17 +207,58 @@ function Account() {
                     </li>
                 </ul>
             </aside>
+
+            <main className="account-content">
             {user && (
                 <h1>
                     Bienvenue {user.firstname} !
                 </h1>
             )}
-            {displayCard ? (
-                <Card filtre={filtrePet} />
-            ) : (
-                <p className="no-annonce"> Vous n'avez pas encore publié d'annonce..  </p>
-            )}
 
+                {petsFiltres.length === 0 ? (
+                    <p className="no-annonce">Vous n'avez pas encore publié d'annonce..</p>
+                ) : (
+                    <div className="cards-row">
+                        {petsFiltres.map((animal) => (
+                            <Card className="animal-card" key={animal._id}>
+                                <div className="card-img-wrapper">
+                                    <Card.Img variant="top" src={animal.Photo} />
+                                    <span className={`status-badge ${animal.Status === 'perdu' ? 'status-perdu' : 'status-trouve'}`}>
+                                        {animal.Status}
+                                    </span>
+                                </div>
+                                <Card.Body className="animal-card-body">
+                                    <Card.Title>{animal.Name}</Card.Title>
+
+                                    <ListGroup className="list-group-flush">
+                                        <ListGroup.Item>{animal.Breed}</ListGroup.Item>
+                                        <ListGroup.Item>Date et heure : {animal.Date_time}</ListGroup.Item>
+                                        <ListGroup.Item>Localisation : {animal.GPS_coordinates}</ListGroup.Item>
+                                    </ListGroup>
+
+                                    <Accordion className="mt-2">
+                                        <Accordion.Item eventKey="0">
+                                            <Accordion.Header>Voir la description</Accordion.Header>
+                                            <Accordion.Body>
+                                                {animal.Description}
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </Accordion>
+
+                                    <div className="card-actions mt-2 d-flex gap-2">
+                                        <Button variant="primary" size="sm" onClick={() => handleEditPet(animal._id)}>
+                                            Modifier
+                                        </Button>
+                                        <Button variant="danger" size="sm" onClick={() => handleDeletePet(animal._id)}>
+                                            Supprimer
+                                        </Button>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </div>
+                )}
+            </main>
 
         </div>
         
