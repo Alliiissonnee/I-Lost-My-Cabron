@@ -337,7 +337,7 @@ div.card:hover {
     flex-direction: column;
     flex-grow: 1;
     padding: 1.25rem;
-    color : #072336;
+    color: #072336;
 }
 
 .description-text {

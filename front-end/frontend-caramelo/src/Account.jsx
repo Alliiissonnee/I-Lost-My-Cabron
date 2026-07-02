@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
 import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import Card from './Card';
+import { CardImg } from 'react-bootstrap';
 import { Card, Accordion, Button, ListGroup } from 'react-bootstrap';
 
 function Account() {
