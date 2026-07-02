@@ -26,6 +26,7 @@ function Welcome() {
     }, []);
 
 
+
     return (<>
         <div className='Welcome'>
             <header className="Top">
@@ -43,7 +44,7 @@ function Welcome() {
 
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
                     <li>
-                        
+
                         Animaux trouvés
                     </li>
                     <li>
@@ -52,7 +53,7 @@ function Welcome() {
                 </ul>
 
                 <section>
-                    <ul>
+                    <ul className='navBarBtn'>
                         <li>
                             <Link to="/about">A propos de nous</Link>
                         </li>
@@ -65,7 +66,7 @@ function Welcome() {
                     </ul>
                 </section>
 
-                <input type="text" className='search' />
+                <input placeholder='Rechercher' type="text"  className='search' />
 
             </header>
             <aside>
@@ -75,14 +76,14 @@ function Welcome() {
 
                 <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                       <Link to="/login">Se connecter</Link>                       
+                        <Link to="/login">Se connecter</Link>
                     </li>
                     <li>
-                       <Link to="/register">S'inscrire</Link>                      
+                        <Link to="/register">S'inscrire</Link>
 
                     </li>
                     <li>
-                       <Link to="/guest">Compte invité</Link>
+                        <Link to="/guest">Compte invité</Link>
                     </li>
                 </ul>
             </aside>

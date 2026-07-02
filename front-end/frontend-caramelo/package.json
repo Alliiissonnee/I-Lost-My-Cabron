@@ -13,6 +13,7 @@
     "axios": "^1.18.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^9.1.2",
     "@mui/x-date-pickers": "^9.6.0",
     "@supabase/supabase-js": "^2.109.0",
@@ -23,7 +24,8 @@
     "react-dom": "^19.2.7",
     "react-hook-form": "^7.80.0",
     "react-router": "^8.0.1",
-    "react-router-dom": "^7.18.0"
+    "react-router-dom": "^7.18.0",
+    "supabase": "^2.109.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
