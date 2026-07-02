@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { Card, Accordion, Button, Badge, ListGroup } from "react-bootstrap";
+import { Card, Accordion, Button, Badge } from "react-bootstrap";
+import { Autocomplete, FormControl, FormLabel, ChipDelete, Chip } from '@mui/joy';
+import { CssVarsProvider } from '@mui/joy/styles';
 
 
 function AnimalCard({ animal }) {
@@ -73,6 +75,30 @@ function Cards({ filtre }) {
             .catch(console.error);
     }, []);
 
+    const [filters, setFilters] = useState([]);
+
+    // Construit les options à partir de ton state animals
+    const searchOptions = animals.flatMap((animal) => [
+        { label: animal.Name, type: 'Nom', value: animal.Name },
+        { label: animal.Status, type: 'Statut', value: animal.Status },
+        { label: animal.Species, type: 'Espèce', value: animal.Species },
+        { label: animal.Breed, type: 'Race', value: animal.Breed },
+        { label: animal.Description, type: 'Description', value:animal.Description},
+    ]).filter((opt, index, self) =>
+        index === self.findIndex((o) => o.label === opt.label && o.type === opt.type)
+    );
+
+    const filteredAnimals = filters.length === 0 ? animals : animals.filter((animal) =>
+        filters.every((f) => {
+            if (f.type === 'Nom') return animal.Name === f.value;
+            if (f.type === 'Statut') return animal.Status === f.value;
+            if (f.type === 'Espèce') return animal.Species === f.value;
+            if (f.type === 'Race') return animal.Breed === f.value;
+            if (f.type === 'Description') return animal.Description === f.value;
+            return true;
+        })
+    );
+
     if (loading) return <p>Chargement des animaux...</p>;
     if (error) return <p>Erreur : {error}</p>;
     // Const normalise : Permet d'ignorer les accents et majuscules (base de donnée = trouvé)
@@ -83,15 +109,36 @@ function Cards({ filtre }) {
     });
 
     return (
-        <div className="cards-row">
-            {animalsFiltres.length === 0 ? (
-                <p>Aucune annonce à afficher.</p>
-            ) : (
-                animalsFiltres.map((animal) => (
-                    <AnimalCard key={animal._id} animal={animal} />
-                ))
-            )}
-        </div>
+
+        <CssVarsProvider>
+            <div className="cards-layout">
+                <div className="search-bar">
+                    <FormControl id="multiple-limit-tags">
+                        <FormLabel>Rechercher un animal</FormLabel>
+                        <Autocomplete
+                            multiple
+                            placeholder="Ex: Nom, statut, espèce,..."
+                            options={searchOptions}
+                            getOptionLabel={(option) => option.label}
+                            groupBy={(option) => option.type}
+                            value={filters}
+                            onChange={(event, newValue) => setFilters(newValue)}
+                            isOptionEqualToValue={(option, value) =>
+                                option.label === value.label && option.type === value.type
+                            }
+                            sx={{ width: '500px' }}
+                        />
+                    </FormControl>
+                </div>
+                <div className='cards-row'>
+                    {filteredAnimals.map((animal) => (
+                        <AnimalCard key={animal._id} animal={animal} />
+                    ))}
+                </div>
+            </div>
+        </CssVarsProvider>
+
+
     );
 }
 
