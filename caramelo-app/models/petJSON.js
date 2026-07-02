@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-
+const authMiddleware = require('../middlewares/auth');
 
 /*Declaration de chaque element dans la base de donnes par type*/
 const PetsSchema = new mongoose.Schema({
@@ -20,6 +20,10 @@ const PetsSchema = new mongoose.Schema({
     Description: String,
     Date_time: String,
     Finder: String,
+    Owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users'
+    }
 
 }, {
     collection: 'pets',
@@ -56,12 +60,26 @@ router.get('/pets/trouve', async (req, res) => {
         res.status(500).json({ erro: err.message });
     }
 });
-
-
-/*CRUD pour ajoute une nouvelle pet (CREATE) */
-router.post('/pets', async (req, res) => {
+/* CRUD pour recuperer seulement les animaux avec le mem ID du user */
+router.get('/pets/mine',authMiddleware, async (req, res) => {
     try {
-        const pet = new Pets(req.body);
+        const data = await Pets.find({Owner: req.user.id});
+        if (data.length===0) {
+            return res.status(404).json({
+                message: "Pet non trouvé"
+            })
+        }
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
+});
+
+
+/*CRUD pour ajoute une nouvelle pet (CREATE), validation de token avec authMiddleware */
+router.post('/pets',authMiddleware, async (req, res) => {
+    try {   
+        const pet = new Pets({...req.body,Owner: req.user.id});
         const data = await pet.save();
         res.status(201).json(data);
     } catch (err) {
