@@ -9,8 +9,9 @@ import { CardImg } from 'react-bootstrap';
 
 
 function Welcome() {
-    const [menuOpen, setMenuOpen] = useState(false)
-    const [loginOpen, setLoginOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [filtrePet, setFiltrePet] = useState("tous");
     const [isDark, setIsDark] = useState(
         window.matchMedia('(prefers-color-scheme : dark)').matches
     );
@@ -42,13 +43,24 @@ function Welcome() {
 
 
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
-                    <li>
-                        
-                        Animaux trouvés
+                    <li
+                        className={filtrePet === "trouve" ? "active" : ""}
+                        onClick={() => setFiltrePet("trouve")}
+                    >
+                        <button className="logout"> Voir tous les animaux trouvés </button>
                     </li>
-                    <li>
-                        Animaux perdus
+                    <li
+                        className={filtrePet === "perdu" ? "active" : ""}
+                        onClick={() => setFiltrePet("perdu")}
+                    >
+                        <button className="logout"> Voir tous les animaux perdus</button>
                     </li>
+
+                    {filtrePet !== "tous" && (
+                        <li onClick={() => setFiltrePet("tous")}>
+                            <button className='logout'>Voir tous les animaux</button>
+                        </li>
+                    )}
                 </ul>
 
                 <section>
@@ -75,20 +87,18 @@ function Welcome() {
 
                 <ul className={`dropdown-login ${loginOpen ? "open" : ""}`}>
                     <li>
-                       <Link to="/login">Se connecter</Link>                       
+                        <Link to="/login">Se connecter</Link>
                     </li>
                     <li>
-                       <Link to="/register">S'inscrire</Link>                      
+                        <Link to="/register">S'inscrire</Link>
 
                     </li>
                     <li>
-                       <Link to="/guest">Compte invité</Link>
+                        <Link to="/guest">Compte invité</Link>
                     </li>
                 </ul>
             </aside>
-            <Card>
-
-            </Card>
+            <Card filtre={filtrePet} />
 
         </div>
     </>)

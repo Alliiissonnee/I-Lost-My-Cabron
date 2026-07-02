@@ -1,0 +1,9 @@
+.about-container {
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FEFAF3;
+    background-image: url("../assets/Photo_i_lost_my_cabron.jpg");
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
