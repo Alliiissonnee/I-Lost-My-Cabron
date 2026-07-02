@@ -3,6 +3,8 @@ import './App.css'
 import Home from "./home";
 import Welcome from "./welcome";
 import About from './About';
+import Contact from './Contact';
+import Services from './Servives';
 import Register from './RegisterConnexion/Register';
 import Login from './RegisterConnexion/Login';
 import Guest from './RegisterConnexion/Guest';
@@ -11,9 +13,10 @@ import Account from './Account';
 import ForgotPassword from './RegisterConnexion/ForgotPassword';
 import ResetPassword from './RegisterConnexion/ResetPassword';
 import GuestLogin from './RegisterConnexion/GuestLogin';
-
+import LoginGoogle from './RegisterConnexion/LoginGoogle';
 import FormPerdu from './Formulaires/FormPerdu';
 import FormTrouve from './Formulaires/FormTrouve';
+
 function App() {
 
   return (
@@ -26,13 +29,16 @@ function App() {
         <Route path="/guest" element={<Guest />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/about" element={<About />} />
+        <Route path ="/services" element={<Services />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path="/account" element={<Account />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/guest-login" element={<GuestLogin />} />
-        <Route path="/about" element={<About/>} />
-        <Route path="/formperdu" element={<FormPerdu/>} /> 
-        <Route path="/formtrouve" element={<FormTrouve/>} /> 
+        <Route path="/about" element={<About />} />
+        <Route path="/formperdu" element={<FormPerdu />} />
+        <Route path="/formtrouve" element={<FormTrouve />} />
+        <Route path="/LoginGoogle" element={<LoginGoogle />} />
       </Routes>
     </BrowserRouter>
   )

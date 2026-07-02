@@ -9,8 +9,9 @@ import { CardImg } from 'react-bootstrap';
 
 
 function Welcome() {
-    const [menuOpen, setMenuOpen] = useState(false)
-    const [loginOpen, setLoginOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [filtrePet, setFiltrePet] = useState("tous");
     const [isDark, setIsDark] = useState(
         window.matchMedia('(prefers-color-scheme : dark)').matches
     );
@@ -47,9 +48,18 @@ function Welcome() {
 
                         Animaux trouvés
                     </li>
-                    <li>
-                        Animaux perdus
+                    <li
+                        className={filtrePet === "perdu" ? "active" : ""}
+                        onClick={() => setFiltrePet("perdu")}
+                    >
+                        <button className="logout"> Voir tous les animaux perdus</button>
                     </li>
+
+                    {filtrePet !== "tous" && (
+                        <li onClick={() => setFiltrePet("tous")}>
+                            <button className='logout'>Voir tous les animaux</button>
+                        </li>
+                    )}
                 </ul>
 
                 <section>
@@ -87,9 +97,7 @@ function Welcome() {
                     </li>
                 </ul>
             </aside>
-            <Card>
-
-            </Card>
+            <Card filtre={filtrePet} />
 
         </div>
     </>)

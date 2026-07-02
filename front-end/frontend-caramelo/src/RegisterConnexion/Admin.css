@@ -71,7 +71,7 @@
   padding: 40px 20px;
 }
 
-.go-back-to-welcome {
+.go-back-to-account {
   display: inline-block;
   margin-bottom: 20px;
   padding: 8px 16px;
@@ -82,7 +82,7 @@
   font-size: 14px;
 }
 
-.go-back-to-welcome:hover {
+.go-back-to-account:hover {
   background-color: black;
 }
 

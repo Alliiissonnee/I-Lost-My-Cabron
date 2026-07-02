@@ -7,38 +7,51 @@ import { CssVarsProvider } from '@mui/joy/styles';
 
 function AnimalCard({ animal }) {
     const [expanded, setExpanded] = useState(false);
-    const isLong = animal.Description.length > 50;
+    const isLong = animal.Description.length && animal.Description > 50;
     const displayText = expanded || !isLong
         ? animal.Description
         : animal.Description.slice(0, 50) + '...';
 
 
     return (
-        <Card>
-            <Card.Img variant="top" src={animal.Photo} />
-            <span className={`status-badge ${animal.Status === 'perdu' ? 'status-perdu' : 'status-trouve'}`}>
-                {animal.Status}
-            </span>
-            <Card.Body>
+        <Card className="animal-card">
+            <div className="card-img-wrapper">
+                <Card.Img variant="top" src={animal.Photo} />
+                <span className={`status-badge ${animal.Status === 'perdu' ? 'status-perdu' : 'status-trouve'}`}>
+                    {animal.Status}
+                </span>
+            </div>
+            <Card.Body className="animal-card-body">
                 <Card.Title>{animal.Name}</Card.Title>
-                <p className="description-text">
-                    {displayText}
-                    {isLong && (
-                        <button
-                            className="see-more-btn"
-                            onClick={() => setExpanded(!expanded)}
-                        >
-                            {expanded ? ' voir moins' : ' voir plus'}
-                        </button>
-                    )}
-                </p>
-                <Button className="btn" variant="success">Voir les options</Button>
+
+                <ListGroup className="list-group-flush">
+                    <ListGroup.Item>{animal.Breed}</ListGroup.Item>
+                    <ListGroup.Item>Date et heure : {animal.Date_time}</ListGroup.Item>
+                    <ListGroup.Item>Localisation : {animal.GPS_coordinates || 'Non renseignée'}</ListGroup.Item>
+                </ListGroup>
+                <Accordion className="mt-2">
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Voir la description</Accordion.Header>
+                        <Accordion.Body>
+                            {animal.Description}
+                            <hr />
+                            Contact :
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
+
+                {/* <div className="card-actions">
+                    <Button variant="primary" size="sm">Modifier</Button>
+                    <Button variant="danger" size="sm">Supprimer</Button>
+                </div> */}
             </Card.Body>
-        </Card>
+        </Card >
     );
+
+
 }
 
-function Cards() {
+function Cards({ filtre }) {
     const [animals, setAnimals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -88,6 +101,12 @@ function Cards() {
 
     if (loading) return <p>Chargement des animaux...</p>;
     if (error) return <p>Erreur : {error}</p>;
+    // Const normalise : Permet d'ignorer les accents et majuscules (base de donnée = trouvé)
+    const normalise = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const animalsFiltres = animals.filter((animal) => {
+        if (filtre === "tous") return true;
+        return normalise(animal.Status) === normalise(filtre);
+    });
 
     return (
 
@@ -123,5 +142,4 @@ function Cards() {
     );
 }
 
-
-export default Cards
+export default Cards;
