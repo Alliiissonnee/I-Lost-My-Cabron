@@ -35,9 +35,27 @@ const navigate = useNavigate();
             return;
         }
         navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const coords = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
-                setValue("GPS_coordinates", coords, { shouldValidate: true });
+            async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                const coords = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+                try {
+                    const response = await axios.get(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const address = response.data.address;
+                    const ville =
+                        address.city ||
+                        address.town ||
+                        address.village ||
+                        address.municipality ||
+                        coords;
+
+                    setValue("GPS_coordinates", ville, { shouldValidate: true });
+                } catch (error) {
+                    console.error("Erreur géocodage:", error);
+                    setValue("GPS_coordinates", coords, { shouldValidate: true });
+                }
             },
             (err) => {
                 if (err.code === 1) {
@@ -66,22 +84,27 @@ const navigate = useNavigate();
                 .upload(fileName, file);
  
             if (uploadError) throw uploadError;
- 
+            
             const { data: publicUrlData } = supabase.storage
                 .from("photos")
                 .getPublicUrl(fileName);
  
             photoUrl = publicUrlData.publicUrl;
         }
+
+        const token = localStorage.getItem("token");
  
         const dataFormate = {
             ...resto,
             Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
             Photo: photoUrl,
         };
-
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
+        
+        await axios.post("http://localhost:3000/pets", dataFormate, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
          navigate("/account");
     } catch (error) {
         console.error("Erreur:", error.response?.data || error.message);
@@ -149,7 +172,7 @@ const navigate = useNavigate();
                             pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
                         })}
                     />
-                       <label>Âge approximatif ex: 3 ans (Facultatif)</label>
+                       <label>Âge (Facultatif)</label>
                         </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 

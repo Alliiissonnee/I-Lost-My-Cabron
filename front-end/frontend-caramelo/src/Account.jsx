@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
+import axios from "axios";  
 import Button from 'react-bootstrap/Button';
 import Card from './Card';
 import { CardImg } from 'react-bootstrap';
 
 function Account() {
+    const [listPets, setListPets] = useState([]);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -62,6 +64,22 @@ function Account() {
     }, []);
 
     useEffect(() => {
+        const chercherPets = async () => {
+            try {
+            const token = localStorage.getItem("token");
+               const response= await axios.get("http://localhost:3000/pets/mine", {
+                headers: {
+                Authorization: `Bearer ${token}`
+                }
+                });
+                setListPets(response.data);
+         } catch (error) {
+            console.error("Erreur:", error.response?.data || error.message);
+         }
+        };
+         chercherPets();
+    }, []);
+     
         const storedUser = localStorage.getItem("user");
 
         if (storedUser) {
@@ -135,7 +153,7 @@ function Account() {
                         <button className='logout' onClick={() => navigate("/account")}> Voir mes annonces</button>
                     </li>
                 </ul>
-
+                    <br/>
                 <section>
                     <ul>
                         <li>
@@ -180,6 +198,7 @@ function Account() {
 
 
         </div>
+        
     </>
     )
 }
