@@ -66,22 +66,27 @@ const navigate = useNavigate();
                 .upload(fileName, file);
  
             if (uploadError) throw uploadError;
- 
+            
             const { data: publicUrlData } = supabase.storage
                 .from("photos")
                 .getPublicUrl(fileName);
  
             photoUrl = publicUrlData.publicUrl;
         }
+
+        const token = localStorage.getItem("token");
  
         const dataFormate = {
             ...resto,
             Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
             Photo: photoUrl,
         };
-
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
+        
+        await axios.post("http://localhost:3000/pets", dataFormate, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
          navigate("/account");
     } catch (error) {
         console.error("Erreur:", error.response?.data || error.message);
@@ -149,7 +154,7 @@ const navigate = useNavigate();
                             pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
                         })}
                     />
-                       <label>Âge approximatif ex: 3 ans (Facultatif)</label>
+                       <label>Âge (Facultatif)</label>
                         </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 

@@ -70,16 +70,22 @@ const navigate = useNavigate();
             photoUrl = publicUrlData.publicUrl;
         }
  
+        const token = localStorage.getItem("token");
+
         const dataFormate = {
             ...resto,
             Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
             Photo: photoUrl,
         };
- 
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
+       
+        await axios.post("http://localhost:3000/pets", dataFormate, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        });
          navigate("/account");
     } catch (error) {
+        console.log(error)
         console.error("Erreur:", error.response?.data || error.message);
     }
 };

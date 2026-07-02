@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
-
+import axios from "axios";
 
 function Account() {
+     const [listPets, setListPets] = useState([]);
      const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -54,7 +55,23 @@ function Account() {
 
     }, []);
 
-   
+    useEffect(() => {
+        const chercherPets = async () => {
+            try {
+            const token = localStorage.getItem("token");
+               const response= await axios.get("http://localhost:3000/pets/mine", {
+                headers: {
+                Authorization: `Bearer ${token}`
+                }
+                });
+                setListPets(response.data);
+         } catch (error) {
+            console.error("Erreur:", error.response?.data || error.message);
+         }
+        };
+         chercherPets();
+    }, []);
+     
 
     return (<>
         <div className='Welcome'>
@@ -94,7 +111,7 @@ function Account() {
                     </ul>
                     )}
                 </ul>
-
+                    <br/>
                 <section>
                     <ul>
                         <li>
@@ -127,6 +144,7 @@ function Account() {
                 </ul>
             </aside>
         </div>
+        
     </>
     )
 }
