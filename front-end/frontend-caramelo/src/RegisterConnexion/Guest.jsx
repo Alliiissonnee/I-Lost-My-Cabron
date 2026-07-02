@@ -34,7 +34,7 @@ function Guest() {
                     <h2>Votre code de suivi</h2>
                     <p>Notez bien ce code, il vous permettra de retrouver vos annonces :</p>
                     <p className="tracking-code">{trackingCode}</p>
-                    <button onClick={() => navigate("/welcome")}>
+                    <button onClick={() => navigate("/account")}>
                         J'ai noté mon code, continuer
                     </button>
                 </div>

@@ -31,6 +31,7 @@ function Login() {
                 "http://localhost:3000/users/login",
                 formData
             );
+            
             console.log("Utilisateur connecté:", response.data);
             // Stocke le token et les infos pour garder la session
             localStorage.setItem("token", response.data.token);

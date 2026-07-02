@@ -75,7 +75,7 @@ function Admin() {
     };
     return (
         <section className="admin-container">      
-            <Link to="/account" className="go-back-to-welcome">
+            <Link to="/account" className="go-back-to-account">
                 Retour à l'accueil
             </Link>
             <h2>Gestion des utilisateurs</h2>

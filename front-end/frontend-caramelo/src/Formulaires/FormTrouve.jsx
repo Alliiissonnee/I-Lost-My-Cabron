@@ -5,11 +5,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams} from "react-router";
 import "dayjs/locale/fr";
 import "./Styles.css";
 dayjs.locale("fr"); 
 import { supabase } from "../supabase";
+import { useEffect, useState } from "react";
+
 
 
 /*Permettre que le useForm recuperer les resultats em form d'une objet et les reagrouper */
@@ -20,13 +22,41 @@ const FormPerdu = () => {
         setValue,
         control,
         watch,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm();
+ 
 
+
+ const navigate = useNavigate();
+const { id } = useParams();
+const [currentPhoto, setCurrentPhoto] = useState("");
 const vet = watch("Vet");
+const isEditMode = Boolean(id);
 
-//Rechargement de la page apres l'envoie du formulaire
-const navigate = useNavigate();
+
+useEffect(() => {
+    if (!isEditMode) return;
+
+    const fetchPet = async () => {
+        const pet = response.data;
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get(`http://localhost:3000/pets/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const pet = response.data;
+             setCurrentPhoto(pet.Photo);
+            reset({
+                ...pet,
+                Date_time: dayjs(pet.Date_time, "DD/MM/YYYY HH:mm"),
+            });
+        } catch (error) {
+            console.error("Erreur chargement pet:", error.response?.data || error.message);
+        }
+    };
+    fetchPet();
+}, [id]);
 
     /* function pour recuperer les coordonnes gps de ta position */
     const handleGPS = () => {
@@ -35,9 +65,27 @@ const navigate = useNavigate();
             return;
         }
         navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const coords = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
-                setValue("GPS_coordinates", coords, { shouldValidate: true });
+            async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                const coords = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+                try {
+                    const response = await axios.get(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const address = response.data.address;
+                    const ville =
+                        address.city ||
+                        address.town ||
+                        address.village ||
+                        address.municipality ||
+                        coords;
+
+                    setValue("GPS_coordinates", ville, { shouldValidate: true });
+                } catch (error) {
+                    console.error("Erreur géocodage:", error);
+                    setValue("GPS_coordinates", coords, { shouldValidate: true });
+                }
             },
             (err) => {
                 if (err.code === 1) {
@@ -54,10 +102,11 @@ const navigate = useNavigate();
     /* function pour agrouper les donnes reçus au formulaire et les envoyer a la base de donnes(mongoDB) plus supabasepour armazener les photos e returner une lien public */
      const onSubmit = async (data) => {
     const { Photo, ...resto } = data;
-    let photoUrl = "";
+    let photoUrl = currentPhoto;
+    const Status = "trouvé";
  
     try {
-        if (Photo && Photo.length > 0) {
+        if (Photo.length > 0) {
             const file = Photo[0];
             const fileName = `${Date.now()}_${file.name}`;
  
@@ -66,22 +115,29 @@ const navigate = useNavigate();
                 .upload(fileName, file);
  
             if (uploadError) throw uploadError;
- 
+            
             const { data: publicUrlData } = supabase.storage
                 .from("photos")
                 .getPublicUrl(fileName);
  
             photoUrl = publicUrlData.publicUrl;
         }
- 
+
+        const token = localStorage.getItem("token");
+
+  /*O status est ajoute directement au back-end au moment de l'envoi du formulaire */
         const dataFormate = {
             ...resto,
             Date_time: data.Date_time.format("DD/MM/YYYY HH:mm"),
             Photo: photoUrl,
+            Status: Status
         };
-
-        await axios.post("http://localhost:3000/pets", dataFormate);
-        console.log("Envoie confirme");
+        
+        await axios.post("http://localhost:3000/pets", dataFormate, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
          navigate("/account");
     } catch (error) {
         console.error("Erreur:", error.response?.data || error.message);
@@ -149,7 +205,7 @@ const navigate = useNavigate();
                             pattern: { value: /^[0-9]*$/, message: "Entrez un nombre valide" },
                         })}
                     />
-                       <label>Âge approximatif ex: 3 ans (Facultatif)</label>
+                       <label>Âge (Facultatif)</label>
                         </div>
                     {errors.Age && <p className="error-message">{errors.Age.message}</p>}
 

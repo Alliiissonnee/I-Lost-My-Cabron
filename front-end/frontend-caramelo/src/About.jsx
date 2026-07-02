@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router";
 function About() {
    return (
       <div className="about-container">
-
+        
          <h1> I Lost My Cabron</h1> <br />
 
          <h2>Fun fact : <br />

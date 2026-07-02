@@ -32,7 +32,6 @@ app.use('/api/auth', authRoutes);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/annonces', annoncesRouter);
-
 app.use('/', petJSON);
 
 /*Connection du Back-end avec la base de donnes(MongoDB) (verifier le fichier(.env)*/
