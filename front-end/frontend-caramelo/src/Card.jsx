@@ -25,7 +25,7 @@ function AnimalCard({ animal }) {
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item>{animal.Breed}</ListGroup.Item>
                     <ListGroup.Item>Date et heure : {animal.Date_time}</ListGroup.Item>
-                    <ListGroup.Item>Localisation : </ListGroup.Item>
+                    <ListGroup.Item>Localisation : {animal.GPS_coordinates || 'Non renseignée'}</ListGroup.Item>
                 </ListGroup>
                 <Accordion className="mt-2">
                     <Accordion.Item eventKey="0">
@@ -33,7 +33,7 @@ function AnimalCard({ animal }) {
                         <Accordion.Body>
                             {animal.Description}
                             <hr />
-                            Contact : 
+                            Contact :
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
