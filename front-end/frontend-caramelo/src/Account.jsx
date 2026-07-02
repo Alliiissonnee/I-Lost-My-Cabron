@@ -4,16 +4,22 @@ import { Link, useNavigate } from 'react-router';
 import React, { useState, useEffect } from 'react';
 import logoCarameloDrk from './assets/logoCarameloDark.png';
 import "./Account.css";
-
+import Button from 'react-bootstrap/Button';
+import Card from './Card';
+import { CardImg } from 'react-bootstrap';
 
 function Account() {
-     const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
+    const [filtrePet, setFiltrePet] = useState("tous");
+    const [displayCard, setDisplayCard] = useState(false);
+    const [user, setUser] = useState(null);
     const [isDark, setIsDark] = useState(
         window.matchMedia('(prefers-color-scheme : dark)').matches
     );
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -45,6 +51,7 @@ function Account() {
         }
     };
 
+    // darkmode
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme : dark)');
         const handleChange = (e) => setIsDark(e.matches);
@@ -54,7 +61,14 @@ function Account() {
 
     }, []);
 
-   
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
 
     return (<>
         <div className='Welcome'>
@@ -70,29 +84,56 @@ function Account() {
                     setMenuOpen(!menuOpen)
                 }}>Menu</button>
 
-               {/* Button pour donner acess aux deux formulaires perdu/trouve */}
+                {/* Button pour donner acess aux deux formulaires perdu/trouve */}
                 <ul className={`dropside-menu ${menuOpen ? "open" : ""}`}>
-                    <li>
-                         <button  className="logout"> Voir tous les animaux trouvés </button>
+                    <li> <button
+                        className="logout"
+                        onClick={() => {
+                            setDisplayCard(true);
+                            setFiltrePet("tous");
+                        }}
+                    >
+                        Voir tous les animaux
+                    </button>
                     </li>
                     <li>
-                       <button  className="logout"> Voir tous les animaux perdus</button>
+                        <button
+                            className="logout"
+                            onClick={() => {
+                                setDisplayCard(true);
+                                setFiltrePet("trouve");
+                            }}
+                        >
+                            Voir tous les animaux trouvés
+                        </button>
+                    </li>
+                    <li>
+                        <button className="logout"
+                            onClick={() => {
+                                setDisplayCard(true);
+                                setFiltrePet("perdu");
+                            }}
+                        > Voir tous les animaux perdus</button>
                     </li>
 
-                    <li style={{position: "relative"}}>
-                    <button  className="logout" onClick={() => setOpen(!open)} > Poster une annonce </button>
+                    <li style={{ position: "relative" }}>
+                        <button className="logout" onClick={() => setOpen(!open)} > Poster une annonce </button>
                     </li>
-                    { open && (
-                    <ul style={{position: "absolute", left:"100%", top:100, listStyle: "none", display: "flex", flexDirection:"column", gap: "8px"}}>   
-                      <li>
-                      <button className="logout" onClick={() => navigate("/FormPerdu")}>Pet perdu</button> 
-                     </li>
-                     <hr style={{ width:"100%"}}/>
-                      <li>
-                      <button className="logout" onClick={() => navigate("/FormTrouve")}>Pet trouvé</button> 
-                      </li>
-                    </ul>
+                    {open && (
+                        <ul style={{ position: "absolute", left: "100%", top: 100, listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
+                            <li>
+                                <button className="logout" onClick={() => navigate("/FormPerdu")}>Pet perdu</button>
+                            </li>
+                            <hr style={{ width: "100%" }} />
+                            <li>
+                                <button className="logout" onClick={() => navigate("/FormTrouve")}>Pet trouvé</button>
+                            </li>
+
+                        </ul>
                     )}
+                    <li>
+                        <button className='logout' onClick={() => navigate("/account")}> Voir mes annonces</button>
+                    </li>
                 </ul>
 
                 <section>
@@ -112,7 +153,7 @@ function Account() {
                 <input type="text" className='search' />
 
             </header>
-                
+
             <aside>
                 <img src={animalWorld} className="login" alt="Sign up / in" onClick={() => {
                     setLoginOpen(!loginOpen)
@@ -126,6 +167,18 @@ function Account() {
                     </li>
                 </ul>
             </aside>
+            {user && (
+                <h1>
+                    Bienvenue {user.firstname} !
+                </h1>
+            )}
+            {displayCard ? (
+                <Card filtre={filtrePet} />
+            ) : (
+                <p className="no-annonce"> Vous n'avez pas encore publié d'annonce..  </p>
+            )}
+
+
         </div>
     </>
     )
