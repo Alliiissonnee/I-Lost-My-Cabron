@@ -1,18 +1,22 @@
-import Welcome from "./welcome";
-import logoCaramelo from './assets/logo_cabron.jpg';
+import "./About.css";
 
 function About() {
-   return (<>
-      <div>
-         <header>
-            <img src={logoCaramelo} alt="Logo Cabron" />
-         </header>
+   return (
+      <div className="about-container">
 
          <h1> I Lost My Cabron</h1> <br />
 
-         <h2>Fun fact :</h2> Cet site à vu le jour pendant notre premier projet de groupe durant notre formation en développement-web, le nom à été trouver pendant une farce lorsque j'ai entendu mon ami <br />
-         Brésilien, appelé le chien d'une collègue de la formation. Ce nom peut sembler vulgaire mais il à une autre conotation amicale <br />
-         en langue hispanique cela peut se traduire : "mon pote", "mon copain", etc.<br />
+         <h2>Fun fact : <br />
+            🐾 Pourquoi « I Lost My Cabron » ?
+         </h2>
+
+         Le nom de notre projet vient de l’un des membres de notre équipe, développeur brésilien 🇧🇷. <br />
+
+         Dans un esprit de camaraderie, « Cabron » représente ici l’idée d’un compagnon, d’un pote, d’un lien fort entre amis. ❤️ <br />
+
+         Un nom qui reflète parfaitement notre mission : aider à retrouver nos compagnons à quatre pattes lorsqu’ils sont perdus. 🐶🐱 <br />
+
+         ✨ Perdu ou trouvé, on se retrouve<br />
 
 
          <br />
@@ -21,7 +25,7 @@ function About() {
 
          Chaque année, des milliers d'animaux de compagnie disparaissent. <br /> Qu'il s'agisse d'un chien qui s'échappe lors d'une promenade, d'un chat qui ne rentre pas à la maison <br /> ou d'un animal trouvé errant dans la rue, les propriétaires se retrouvent souvent démunis et les personnes qui les recueillent ne savent pas toujours comment retrouver leur famille. <br />
          <br />
-         <h4>I Lost My Cabron</h4> est une application mobile conçue pour faciliter la recherche et le signalement d'animaux perdus ou trouvés en France. <br />
+         <h4>I Lost My Cabron</h4> Une application web conçue pour faciliter la recherche et le signalement d'animaux perdus ou trouvés en France. <br />
 
          L'objectif est simple : créer une communauté nationale solidaire permettant de réunir plus rapidement les animaux et leurs propriétaires. <br />
          <br />
@@ -103,7 +107,7 @@ function About() {
          </p>
 
       </div>
-   </>)
+   )
 
 }
 
