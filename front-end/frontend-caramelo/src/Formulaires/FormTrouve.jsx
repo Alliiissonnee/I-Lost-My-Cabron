@@ -35,9 +35,27 @@ const navigate = useNavigate();
             return;
         }
         navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const coords = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
-                setValue("GPS_coordinates", coords, { shouldValidate: true });
+            async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                const coords = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+                try {
+                    const response = await axios.get(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const address = response.data.address;
+                    const ville =
+                        address.city ||
+                        address.town ||
+                        address.village ||
+                        address.municipality ||
+                        coords;
+
+                    setValue("GPS_coordinates", ville, { shouldValidate: true });
+                } catch (error) {
+                    console.error("Erreur géocodage:", error);
+                    setValue("GPS_coordinates", coords, { shouldValidate: true });
+                }
             },
             (err) => {
                 if (err.code === 1) {
